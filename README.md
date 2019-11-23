@@ -46,7 +46,12 @@ At the moment, Armor only handles GET and POST requests. But, with the support o
 The callback that is passed as argument must receive two parameters: a `Request` object and a `Response` object. The `Request` object provides information about the path requested, the search-query parameters, AND... the **path parameters**. This name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
 
 ```php
-$app->get('/path/to/$(section)', function(Request $req, Response $res) {...});
+$app->get('/path/to/$(section)', function(Request $req, Response $res) {
+    if ($req->path['section'] == 'something') {
+        //do something
+    }
+    //...
+});
 ```
 
 So, Armor supports it too. But, coming back to the callback parameters, the `Response` object provides a lot of methods for appending content to the response.
@@ -60,7 +65,7 @@ $app->get('/', function(Request $req, Response $res) {
     $res->append("<html>
         <body>
             <h1>Hello, World!</h1>
-            <p>This is an example page, and you are accessing {$req->path}</p>
+            <p>This is an example page, and you are accessing {$req->path->absolute}</p>
         </body>
     </html>");
 
@@ -68,7 +73,7 @@ $app->get('/', function(Request $req, Response $res) {
 });
 ```
 
-As you can see, we are handling a request for the `/` route. We append a simple message to the response, which uses the `path` property of the `Request` object. And, finally, we complete the response, and returns it final result. That "return" is used by Armor to know if the response has been correctly built, or something different, or unexpected, has occurred. If it does, Armor throws a `ResponseCompletionNotCompletedException`.
+As you can see, we are handling a request for the `/` route. We append a simple message to the response, which uses the `absolute` value of the `path` property of the `Request` object. And, finally, we complete the response, and returns it final result. That "return" is used by Armor to know if the response has been correctly built, or something different, or unexpected, has occurred. If it does, Armor throws a `ResponseCompletionNotCompletedException`.
 
 Well, there is a lot for knowing about Armor. In the future, it may be fully covered by a more detailed documentation.
 
