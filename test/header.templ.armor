@@ -1,0 +1,12 @@
+<% initTemplate('header') %>
+<header>
+    <% $arr = array('hello', 'world'); %>
+    <nav>
+        <ul>
+        <% foreach ($arr as $value) { %>
+            <li><a href="<%=$value%>"> <%=$value %> </a></li>
+        <% } %>
+        </ul>
+    </nav>
+</header>
+<% endTemplate() %>

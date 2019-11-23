@@ -1,0 +1,23 @@
+{
+    "name": "14mpr0gr4mm3r/armor-lib",
+    "description": "Armor aims to be an useful routing (and more things) framework for back-end developers.",
+    "type": "library",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Gustavo Sampaio (14mPr0gr4mm3r)",
+            "role": "Developer"
+        }
+    ],
+    "keywords": ["php", "framework", "routing", "extensions", "armor-lib"],
+    "require": {
+        "php": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Armor\\": "src/",
+            "Armor\\HandlingTools\\": "src/resources",
+            "Armor\\Exceptions\\": "src/resources/Exceptions"
+        }
+    }
+}
