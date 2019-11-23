@@ -70,4 +70,19 @@ class TemplateManager {
 
         return $this->templates[$template_name];
     }
+
+    /**
+     * Add a new function that may be used from the inside of the templates
+     * 
+     * @param string $function_name The name of the function to be recognized at the templates
+     * @param callable $function_callback The function itself, which must return a string value with valid PHP code
+     * @throws Exception
+     */
+    public function extendFunctions(string $function_name, callable $function_callback) {
+        if (array_key_exists($function_name, $this->templatingFunctions)) {
+            throw new Exception("there is already a '$function_name' function");
+        }
+
+        $this->templatingFunctions[$function_name] = $function_callback;
+    }
 }

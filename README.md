@@ -75,7 +75,7 @@ $app->get('/', function(Request $req, Response $res) {
 
 As you can see, we are handling a request for the `/` route. We append a simple message to the response, which uses the `absolute` value of the `path` property of the `Request` object. And, finally, we complete the response, and returns it final result. That "return" is used by Armor to know if the response has been correctly built, or something different, or unexpected, has occurred. If it does, Armor throws a `ResponseCompletionNotCompletedException`.
 
-Well, there is a lot for knowing about Armor. In the future, it may be fully covered by a more detailed documentation.
+Well, there is a lot to know about Armor. In the future, it may be fully covered by a more detailed documentation.
 
 ### A little talk about using templates
 
