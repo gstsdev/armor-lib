@@ -52,20 +52,9 @@ class Application implements ArrayAccess {
         return $this->extensions[$offset];
     }
 
-    public function offsetExists($offset)
-    {
-        
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        
-    }
-
-    public function offsetUnset($offset)
-    {
-        
-    }
+    public function offsetExists($offset){}
+    public function offsetSet($offset, $value){}
+    public function offsetUnset($offset){}
 
     /**
      * It handles non-standard methods that
@@ -73,11 +62,11 @@ class Application implements ArrayAccess {
      */
     public function __call($methodname, $args) {
         if (!in_array($methodname, ALLOWED_METHODS)) {
-            if (substr($methodname, 0, 3) == "ext") {
-                $methodname = substr($methodname, 0, 3);
-                return $this->extensions[$methodname]($args);
-            } else
-                throw new Exceptions\ProhibitedMethodException("Prohibited Method: $methodname");
+            //if (substr($methodname, 0, 3) == "ext") {
+            //    $methodname = substr($methodname, 0, 3);
+            //    return $this->extensions[$methodname]($args);
+            //} else
+            throw new Exceptions\ProhibitedMethodException("Prohibited Method: $methodname");
         }
 
         if (sizeof($args) < 2 || sizeof($args) > 2)
@@ -87,29 +76,31 @@ class Application implements ArrayAccess {
 
         $route = $route[0] != "/" ? "/" . $route : $route;
 
-        list($route, $params) = $this->convertRouteToRegex($route);
+        list($route, $params, $parsers) = $this->convertRouteToRegex($route);
 
         if (!is_callable($handler))
             throw new TypeError("Handler must be a function");
 
-        array_push($this->handlers[$methodname], new HandlingTools\Route($route, $params, $handler));
+        array_push($this->handlers[$methodname], new HandlingTools\Route($route, $params, $handler, $parsers));
     }
 
     private function convertRouteToRegex($route) {
         $params = array();
+        $parsers = array();
 
         //$pathto = "/user/12085018232";
         //$matching = "/user/$(userid)/$(userconfig)";
 
-        $rgx = preg_replace_callback("/\\$\((\\w+)\)/i", function($matches) use(&$params) {
+        $rgx = preg_replace_callback("/\\$\((\\w+)(^[:]tolower|toupper|toint|tobool)*\)/i", function($matches) use(&$params) {
             $variable = $matches[1];
             $params[$variable] = null;
+            $parsers[$variable] = array_slice($matches, 2);
             return "(\\w+)";
         }, $route);
 
         $rgx = "/" . str_replace('/', '\/', $rgx) . "/";
 
-        return array($rgx, $params);
+        return array($rgx, $params, $parsers);
     }
 
     public function use($extension_name, ...$extension_addons) {
