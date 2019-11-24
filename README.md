@@ -16,24 +16,20 @@ Armor, for now, can only be installed from its repository (which may be where yo
 2. Link this repo at the `repositories` field:
     ```json
     {
-        //...
         "repositories": [
             {
                 "type": "vcs",
                 "url": "https://github.com/14mPr0gr4mm3r/armor-lib.git"
             }
         ]
-        //...
     }
     ```
 3. And finally, append Armor to the `require` field:
     ```json
     {
-        //...
         "require": {
             "14mpr0gr4mm3r/armor-lib": "dev-master"
         }
-        //...
     }
     ```
 
@@ -124,6 +120,8 @@ $app->get('/', function(Request $req, Response $res) {
 
     return $res->end();
 });
+
+$app->run();
 ```
 
 As you can see, we are handling a request to the route `/`. We append a simple message to the response, which uses the `absolute` value of the `path` property of the `Request` object. And, finally, we complete the response, and returns it final result. That "return" is used by Armor to know if the response has been correctly built, or something unexpected has occurred. If it does, Armor throws a `ResponseCompletionNotCompletedException`.

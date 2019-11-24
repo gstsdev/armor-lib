@@ -59,6 +59,8 @@ class Application implements ArrayAccess {
     /**
      * It handles non-standard methods that
      * the Application instance can provide
+     * 
+     * @return RouteInterface
      */
     public function __call($methodname, $args) {
         if (!in_array($methodname, ALLOWED_METHODS)) {
@@ -82,6 +84,8 @@ class Application implements ArrayAccess {
             throw new TypeError("Handler must be a function");
 
         array_push($this->handlers[$methodname], new HandlingTools\Route($route, $params, $handler, $parsers));
+
+        return new HandlingTools\RouteInterface($this->handlers[$methodname][sizeof($this->handlers[$methodname])-1]);
     }
 
     private function convertRouteToRegex($route) {
@@ -90,11 +94,13 @@ class Application implements ArrayAccess {
 
         //$pathto = "/user/12085018232";
         //$matching = "/user/$(userid)/$(userconfig)";
+        ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
 
-        $rgx = preg_replace_callback("/\\$\((\\w+)(^[:]tolower|toupper|toint|tobool)*\)/i", function($matches) use(&$params) {
+        $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
+            ///@debug print_r(array_slice($matches, 2));
             $variable = $matches[1];
             $params[$variable] = null;
-            $parsers[$variable] = array_slice($matches, 2);
+            $parsers[$variable] = $matches[2];
             return "(\\w+)";
         }, $route);
 
