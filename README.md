@@ -6,6 +6,8 @@ It implements classes and methods to handle requests and respond them. At first,
 
 Below, you can get started on installing it, using it to handle requests and, for now, creating templates and sending them as response, by using the "native extension", _ArmorTemplating_ (well, this name may change along the time).
 
+<hr/>
+
 ## Getting Started
 
 ### Installing Armor
