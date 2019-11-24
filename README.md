@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # armor-lib
 
 Armor (**A** **R**outing and **MOR**e Things Framework) aims to be an useful routing (and more things) framework for back-end developers.
@@ -158,3 +159,6 @@ Here, we loaded two templates: "_header.templ.armor_" and "_index.templ.armor_".
 I admit that this was very little to be taught, but in the future, with possible more people helping, the quality and detail of the documentation might get better.
 
 Good studies, from 14mPr0gr4mm3r (the current Armor maintainer).
+=======
+
+>>>>>>> 4f825f400fbbabc33cf52a0fb8821c1ce5a48aeb
