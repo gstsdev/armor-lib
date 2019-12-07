@@ -11,29 +11,11 @@ Below, you can get started on installing it, using it to handle requests and, fo
 
 ### Installing Armor
 
-Armor, for now, can only be installed from its repository (which may be where you're reading this). So, you can follow these instructions (from _[Composer](https://getcomposer.com)_ documentation) about [loading a package from a VCS repository](https://getcomposer.org/doc/05-repositories.md#loading-a-package-from-a-vcs-repository). Briefly, you can do this:
-1. Create your `composer.json` file
-2. Link this repo at the `repositories` field:
-    ```json
-    {
-        "repositories": [
-            {
-                "type": "vcs",
-                "url": "https://github.com/14mPr0gr4mm3r/armor-lib.git"
-            }
-        ]
-    }
-    ```
-3. And finally, append Armor to the `require` field:
-    ```json
-    {
-        "require": {
-            "14mpr0gr4mm3r/armor-lib": "dev-master"
-        }
-    }
-    ```
+You can get Armor using _[Composer](https://getcomposer.org)_:
 
-Perhaps, in the future, Armor will be published in _[Packagist](https://packagist.org)_ to simplify this process.
+```composer require 14mpr0gr4mm3r/armor-lib```
+
+And YES! Armor now is _[available at Packagist](https://packagist.org/packages/14mpr0gr4mm3r/armor-lib)_!
 
 ### Implemeting Armor
 
