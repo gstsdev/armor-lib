@@ -11,7 +11,7 @@ Below, you can get started on installing it, using it to handle requests and, fo
 
 ### Installing Armor
 
-You can get Armor using _[Composer](https://getcomposer.org)_:
+You can get Armor using _[Composer](https://getcomposer.org)_ just like this:
 
 ```composer require 14mpr0gr4mm3r/armor-lib```
 
@@ -116,12 +116,12 @@ Armor offers a native extension for templates called _ArmorTemplating_. It provi
 
 ```php
 /** 
- * This example is a snippet taken and adapted from the `index.php` file, inside the repository 'test' folder
+ * This example is a snippet taken and adapted from the 'example01', available at https://github.com/14mPr0gr4mm3r/armor-examples
  * @author 14mPr0gr4mm3r
- * @license GPL-3.0
+ * @license MIT
 */
 
-$templ = new ArmorTemplating\TemplateManager("./", ['header', 'index']);
+$templ = new Armor\Extensions\ArmorTemplating\TemplateManager("./", ['header', 'index']);
 
 $app->get('/', function(Request $req, Response $res) use($templ) {
     $templ->getTemplate('index')->sendAsResponse($res);
@@ -131,6 +131,22 @@ $app->get('/', function(Request $req, Response $res) use($templ) {
 ```
 
 Here, we loaded two templates: "_header.templ.armor_" and "_index.templ.armor_". They are on the same directory that the source file is. We load the manager from the inside of the closure, and use it for loading the `index` template (`getTemplate`) and sending it. For sending the template, we pass the `Response` object by reference to the `Template.sendAsResponse` method. And then, we finishes the request handling process.
+
+Instead, to avoid adding `use` keyword to "request handling closures", we could use the `Application::use` method, like this:
+
+```php
+$templ = new Armor\Extensions\ArmorTemplating\TemplateManager("./", ['header', 'index']);
+
+$app->use('templ', $templ);
+
+$app->get('/', function(Request $req, Response $res) {
+    $this['templ']->getTemplate('index')->sendAsResponse($res);
+
+    return $res->end();
+});
+```
+
+Yes, Armor allows you to do this. Actually, this is part of Armor's extensions service.
 
 ## Final Considerations
 
