@@ -1,9 +1,0 @@
-<% initTemplate('index') %>
-<html>
-    <head><title>Hello, World!</title></head>
-<body>
-    <% useTemplate('header') %>
-    <h1>Hello, World!</h1>
-</body>
-</html>
-<% endTemplate() %>

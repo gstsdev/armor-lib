@@ -17,7 +17,8 @@
         "psr-4": {
             "Armor\\": "src/",
             "Armor\\HandlingTools\\": "src/resources",
-            "Armor\\Exceptions\\": "src/resources/Exceptions"
+            "Armor\\Exceptions\\": "src/resources/Exceptions",
+            "Armor\\Extensions\\": "src/extensions"
         }
     }
 }
