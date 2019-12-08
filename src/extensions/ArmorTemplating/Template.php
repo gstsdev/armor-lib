@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmorTemplating;
+namespace Armor\Extensions\ArmorTemplating;
 
 class Template {
     public $name, $output;

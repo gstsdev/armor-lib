@@ -1,6 +1,6 @@
 <?php
 
-namespace ArmorTemplating;
+namespace Armor\Extensions\ArmorTemplating;
 
 use Exception;
 
