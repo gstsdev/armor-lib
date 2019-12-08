@@ -25,6 +25,8 @@ const ALLOWED_METHODS = array('get', 'post');
 class Application implements ArrayAccess {
     private $handlers, $fallbacks, $extensions;
     private $encoder;
+    private $customRouter;
+
     public function __construct($encoder=null)
     {
         $this->handlers = array(
@@ -34,12 +36,14 @@ class Application implements ArrayAccess {
 
         $this->fallbacks = array(
             '404' => function(Request $req, Response $res) {
-                return $res->end("<h1>404</h1>Not Found <i>{$req->path->absolute}</i>", 404); 
+                return $res->end("<h1>404</h1>Not Found <i>{$req->path->absolute}</i>", 404);
             }
         );
         $this->extensions = array();
 
         $this->encoder = $encoder;
+
+        $this->customRouter = false;
     }
 
     /**
@@ -104,12 +108,14 @@ class Application implements ArrayAccess {
             return "(\\w+)";
         }, $route);
 
-        $rgx = "/" . str_replace('/', '\/', $rgx) . "/";
+        $rgx = "/^" . str_replace('/', '\/', $rgx) . "$/";
 
         return array($rgx, $params, $parsers);
     }
 
     public function use($extension_name, ...$extension_addons) {
+        if (sizeof($extension_addons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
+
         list($extension_argument, $extension_handler) = sizeof($extension_addons) < 2 ? [null, $extension_addons[0]] : $extension_addons;
 
         switch($extension_name) {
@@ -117,6 +123,9 @@ class Application implements ArrayAccess {
                 if (!is_string($extension_argument) || !is_callable($extension_handler))
                     throw new TypeError("Fallback name must be a string and fallback handler must be a function");
                 $this->fallbacks[$extension_argument] = $extension_handler;
+                break;
+            case 'router':
+                $this->customRouter = $extension_handler;
                 break;
             default:
                 //require "extensions/$extension_name/__all__.php";
@@ -132,6 +141,11 @@ class Application implements ArrayAccess {
      * to the handlers setted. 
      * If the request route/path is
      * not found, it sends a 404 page
+     * 
+     * Optionally, if a `customRouter` has been defined,
+     * all work to create request and response objects,
+     * to get the right request handler, and to generate
+     * exceptions in case of failures will be assigned to it.
     */
     public function run() {
         $requestCustomParameters = array();
@@ -142,27 +156,32 @@ class Application implements ArrayAccess {
         parse_str(parse_url($requestURI, PHP_URL_QUERY), $query);
 
         $requestBody = $requestMethod == "POST" ? $_POST : $query;
-            
-        $finalResponse = null;
 
-        foreach ($this->handlers[$requestMethod] as $route_handler) {
-            if ($route_handler->match($path)) {
-                $finalResponse = $route_handler->getCallback();
-                $requestCustomParameters = $route_handler->getParsedRouteParameters();
-                break;
+        if (!$this->customRouter) {
+            $finalResponse = null;
+
+            foreach ($this->handlers[$requestMethod] as $route_handler) {
+                if ($route_handler->match($path)) {
+                    $finalResponse = $route_handler->getCallback();
+                    $requestCustomParameters = $route_handler->getParsedRouteParameters();
+                    break;
+                }
             }
+
+            if ($finalResponse === null) {
+                $finalResponse = $this->fallbacks['404'];
+            }
+
+            $finalResponse = is_callable($finalResponse) ? $finalResponse->bindTo($this) : $finalResponse;
+
+            $result = call_user_func($finalResponse, new Request($requestMethod, $path, $requestCustomParameters, $requestBody), new Response($this->encoder));
+
+            if (!$result)
+                throw new Exceptions\ResponseCompletionNotCompletedException();
+
+        } else {
+            call_user_func($this->customRouter, $requestMethod, $path, $requestBody, $this->encoder);
         }
-
-        if ($finalResponse === null) {
-            $finalResponse = $this->fallbacks['404'];
-        }
-
-        $finalResponse = is_callable($finalResponse) ? $finalResponse->bindTo($this) : $finalResponse;
-
-        $result = call_user_func($finalResponse, new Request($requestMethod, $path, $requestCustomParameters, $requestBody), new Response($this->encoder));
-
-        if (!$result)
-            throw new Exceptions\ResponseCompletionNotCompletedException();
     }
 
     public function __toString()
