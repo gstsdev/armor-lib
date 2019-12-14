@@ -12,11 +12,11 @@ class ApplicationTest extends TestCase {
 
         $this->assertInstanceOf(Application::class, $GLOBALS['app']);
 
-        $this->assertClassHasAttribute('handlers', 'Armor\Application');
-        $this->assertClassHasAttribute('fallbacks', 'Armor\Application');
-        $this->assertClassHasAttribute('extensions', 'Armor\Application');
-        $this->assertClassHasAttribute('encoder', 'Armor\Application');
-        $this->assertClassHasAttribute('customRouter', 'Armor\Application');
+        $this->assertClassHasAttribute('handlers', Application::class);
+        $this->assertClassHasAttribute('fallbacks', Application::class);
+        $this->assertClassHasAttribute('extensions', Application::class);
+        $this->assertClassHasAttribute('encoder', Application::class);
+        $this->assertClassHasAttribute('customRouter', Application::class);
     }
 
     public function testAddsRequestsHandlers() {

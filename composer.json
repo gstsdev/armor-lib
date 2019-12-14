@@ -11,9 +11,7 @@
     ],
     "scripts": {
         "test": [
-            "@php tests/ArmorAppTest.php",
-            "@php tests/ArmorRoutesTest.php",
-            "@php tests/ArmorTemplateTest.php"
+            "phpunit --bootstrap .\\vendor\\autoload.php --testdox tests"
         ]
     },
     "keywords": ["php", "framework", "routing", "extensions", "armor-lib"],

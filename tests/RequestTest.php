@@ -9,9 +9,9 @@ class RequestTest extends TestCase {
 
         $this->assertInstanceOf(Request::class, $req);
 
-        $this->assertClassHasAttribute('path', 'Armor\HandlingTools\Request');
-        $this->assertClassHasAttribute('_query', 'Armor\HandlingTools\Request');
-        $this->assertClassHasAttribute('method', 'Armor\HandlingTools\Request');
+        $this->assertClassHasAttribute('path', Request::class);
+        $this->assertClassHasAttribute('_query', Request::class);
+        $this->assertClassHasAttribute('method', Request::class);
     }
 
     public function testOnlyAllowsQueryAttributeForGet() {

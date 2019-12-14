@@ -31,7 +31,7 @@ class Response {
     public static function loadContentFrom($pathto, $parser=null) {
         $content = file_get_contents($pathto);
         
-        if (is_integer($parser)) {
+        if ($parser && is_integer($parser)) {
             switch($parser) {
                 case 0:
                     $parser = function($data) { return json_decode($data, true); };
@@ -41,10 +41,12 @@ class Response {
             }
         }
 
-        try {
-            $content = call_user_func($parser, $content);
-        } catch(Exception $e) {
-            throw new TypeError("Parser must be callable, not {gettype($parser)}", 1);
+        if ($parser) {
+            if (is_callable($parser)) {
+                $content = call_user_func($parser, $content);
+            } else {
+                throw new TypeError("Parser must be callable, not {gettype($parser)}", 1);
+            }
         }
         
         return $content;

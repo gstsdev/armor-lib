@@ -15,11 +15,11 @@ class RouteTest extends TestCase {
          * $custom_parser;
          */
 
-        $this->assertClassHasAttribute('pattern', 'Armor\HandlingTools\Route');
-        $this->assertClassHasAttribute('callback', 'Armor\HandlingTools\Route');
-        $this->assertClassHasAttribute('parameters', 'Armor\HandlingTools\Route');
-        $this->assertClassHasAttribute('parsers', 'Armor\HandlingTools\Route');
-        $this->assertClassHasAttribute('custom_parser', 'Armor\HandlingTools\Route');
+        $this->assertClassHasAttribute('pattern', Route::class);
+        $this->assertClassHasAttribute('callback', Route::class);
+        $this->assertClassHasAttribute('parameters', Route::class);
+        $this->assertClassHasAttribute('parsers', Route::class);
+        $this->assertClassHasAttribute('custom_parser', Route::class);
     }
 
     public function testMatchesSpecificPaths() {

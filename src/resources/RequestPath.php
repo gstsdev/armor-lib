@@ -3,6 +3,7 @@
 namespace Armor\HandlingTools;
 
 use ArrayAccess;
+use Exception;
 
 class RequestPath implements ArrayAccess {
     public $absolute;
