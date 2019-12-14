@@ -9,6 +9,13 @@
             "role": "Developer"
         }
     ],
+    "scripts": {
+        "test": [
+            "@php tests/ArmorAppTest.php",
+            "@php tests/ArmorRoutesTest.php",
+            "@php tests/ArmorTemplateTest.php"
+        ]
+    },
     "keywords": ["php", "framework", "routing", "extensions", "armor-lib"],
     "require": {
         "php": "^7.2"
@@ -20,5 +27,8 @@
             "Armor\\Exceptions\\": "src/resources/Exceptions",
             "Armor\\Extensions\\": "src/extensions"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "8"
     }
 }

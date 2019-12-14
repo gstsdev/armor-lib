@@ -2,6 +2,8 @@
 
 namespace Armor\HandlingTools;
 
+use Exception;
+
 require "RequestQueryParameters.php";
 require "RequestPath.php";
 
@@ -22,12 +24,12 @@ class Request {
             if ($this->method == 'get')
                 return $this->_query;
             else
-                exit('Method doesn\'t have query parameters');
+                throw new Exception('Method doesn\'t have query parameters');
         } elseif ($name == 'body') {
             if ($this->method == 'post')
                 return $this->_query;
             else
-                exit('Method doesn\'t have a request body');
+                throw new Exception('Method doesn\'t have a request body');
         }
     }
 }
