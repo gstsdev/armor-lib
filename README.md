@@ -1,4 +1,8 @@
 # armor-lib
+<a href="https://packagist.org/packages/14mpr0gr4mm3r/armor-lib" target="_self"><img src="https://img.shields.io/packagist/v/14mpr0gr4mm3r/armor-lib"/></a>
+<a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/14mpr0gr4mm3r/armor-lib" /></a>
+<a href="https://packagist.org/packages/14mpr0gr4mm3r/armor-lib/stats"><img src="https://img.shields.io/packagist/dt/14mpr0gr4mm3r/armor-lib" /></a>
+<a href="https://github.com/14mPr0gr4mm3r/armor-lib/blob/master/LICENSE" target="_self"><img src="https://img.shields.io/packagist/l/14mpr0gr4mm3r/armor-lib" /></a>
 
 Armor (**A** **R**outing and **MOR**e Things Framework) aims to be an useful routing (and more things) framework for back-end developers.
 
