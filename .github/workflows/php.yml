@@ -17,11 +17,8 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-    
-    - name: Run the tests
-      run: composer test
+    - name: Install dependencies and run the tests
+      run: composer install --prefer-dist --no-progress --no-suggest && composer test
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
