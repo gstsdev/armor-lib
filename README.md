@@ -1,8 +1,10 @@
 # armor-lib
-<a href="https://packagist.org/packages/14mpr0gr4mm3r/armor-lib" target="_self"><img src="https://img.shields.io/packagist/v/14mpr0gr4mm3r/armor-lib"/></a>
-<a href="https://php.net"><img src="https://img.shields.io/packagist/php-v/14mpr0gr4mm3r/armor-lib" /></a>
-<a href="https://packagist.org/packages/14mpr0gr4mm3r/armor-lib/stats"><img src="https://img.shields.io/packagist/dt/14mpr0gr4mm3r/armor-lib" /></a>
-<a href="https://github.com/14mPr0gr4mm3r/armor-lib/blob/master/LICENSE" target="_self"><img src="https://img.shields.io/packagist/l/14mpr0gr4mm3r/armor-lib" /></a>
+
+[![armor-lib on Packagist](https://img.shields.io/packagist/v/14mpr0gr4mm3r/armor-lib)](https://packagist.org/packages/14mpr0gr4mm3r/armor-lib)
+[![PHP required version](https://img.shields.io/packagist/php-v/14mpr0gr4mm3r/armor-lib)](https://php.net)
+[![armor-lib Downloads](https://img.shields.io/packagist/dt/14mpr0gr4mm3r/armor-lib)](https://packagist.org/packages/14mpr0gr4mm3r/armor-lib/stats)
+[![armor-lib License](https://img.shields.io/packagist/l/14mpr0gr4mm3r/armor-lib)](https://github.com/14mPr0gr4mm3r/armor-lib/blob/master/LICENSE)
+[![Armor-Lib Health](https://github.com/14mPr0gr4mm3r/armor-lib/workflows/Armor-Lib%20Health/badge.svg?branch=master)](https://github.com/14mPr0gr4mm3r/armor-lib/actions)
 
 Armor (**A** **R**outing and **MOR**e Things Framework) aims to be an useful routing (and more things) framework for back-end developers.
 
