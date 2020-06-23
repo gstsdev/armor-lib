@@ -45,25 +45,26 @@ jobs:
     - name: Run the tests
       run: composer test
       
-  build-darwin:
-    name: Building (macOS)
-    runs-on: macos-latest
+# macOS Support will be stopped for now
+#   build-darwin:
+#     name: Building (macOS)
+#     runs-on: macos-latest
 
-    steps:
-    - uses: actions/checkout@v2
+#     steps:
+#     - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      uses: php-actions/composer@v1
-      with:
-        command: validate
-      # run: composer validate
+#     - name: Validate composer.json and composer.lock
+#       uses: php-actions/composer@v1
+#       with:
+#         command: validate
+#       # run: composer validate
 
-    - name: Install dependencies
-      uses: php-actions/composer@v1
-      with:
-        command: install --prefer-dist --no-progress --no-suggest
+#     - name: Install dependencies
+#       uses: php-actions/composer@v1
+#       with:
+#         command: install --prefer-dist --no-progress --no-suggest
     
-    - name: Run the tests
-      uses: php-actions/composer@v1
-      with:
-        command: test
+#     - name: Run the tests
+#       uses: php-actions/composer@v1
+#       with:
+#         command: test
