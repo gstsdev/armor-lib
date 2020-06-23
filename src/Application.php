@@ -1,7 +1,7 @@
 <?php 
 namespace Armor;
 
-require "../vendor/autoload.php";
+require __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
 
