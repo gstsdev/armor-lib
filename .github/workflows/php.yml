@@ -18,7 +18,8 @@ jobs:
       run: composer validate
 
     - name: Install dependencies and run the tests
-      run: composer install --prefer-dist --no-progress --no-suggest && composer test
+    - run: composer install --prefer-dist --no-progress --no-suggest
+    - run: composer test
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
