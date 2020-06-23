@@ -1,6 +1,6 @@
 <?php
 
-use Armor\HandlingTools\RequestPath;
+use Armor\Handle\RequestPath;
 use PHPUnit\Framework\TestCase;
 
 class RequestPathTest extends TestCase {

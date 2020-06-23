@@ -2,6 +2,7 @@
 .phpunit.result.cache
 composer.lock
 
+/src/extensions/ArmorUI/__all__.php
 /src/extensions/DEV_ArmorSPA/
 /src/resources/handlingtools.php
 /src/resources/Exceptions/exceptions.php

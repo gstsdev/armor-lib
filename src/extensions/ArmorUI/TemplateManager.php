@@ -1,6 +1,6 @@
 <?php
 
-namespace Armor\Extensions\ArmorTemplating;
+namespace Armor\Extensions\ArmorUI;
 
 use Exception;
 

@@ -1,7 +1,7 @@
 <?php
 
 use Armor\Application;
-use Armor\HandlingTools\RouteInterface;
+use Armor\Handle\RouteInterface;
 use PHPUnit\Framework\TestCase;
 
 $GLOBALS['app'] = null;
