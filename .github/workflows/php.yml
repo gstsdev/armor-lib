@@ -53,10 +53,17 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
-      run: composer validate
+      uses: php-actions/composer@v1
+      with:
+        command: validate
+      # run: composer validate
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      uses: php-actions/composer@v1
+      with:
+        command: install --prefer-dist --no-progress --no-suggest
     
     - name: Run the tests
-      run: composer test
+      uses: php-actions/composer@v1
+      with:
+        command: test
