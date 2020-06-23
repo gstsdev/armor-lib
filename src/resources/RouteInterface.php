@@ -1,8 +1,6 @@
 <?php
 
-namespace Armor\HandlingTools;
-
-require_once "Route.php";
+namespace Armor\Handle;
 
 /**
  * The interface to the route that the user may have access to.

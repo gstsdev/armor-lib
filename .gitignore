@@ -1,3 +1,12 @@
 /vendor/
 .phpunit.result.cache
 composer.lock
+
+/src/extensions/DEV_ArmorSPA/
+/src/resources/handlingtools.php
+/src/resources/Exceptions/exceptions.php
+
+/tests/index.php
+/tests/myroutes.php
+/tests/.htaccess
+/tests/SPARouter.js

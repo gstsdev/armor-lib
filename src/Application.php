@@ -1,15 +1,16 @@
 <?php 
 namespace Armor;
 
-require_once "resources/Exceptions/exceptions.php";
-require_once "resources/handlingtools.php";
+require "../vendor/autoload.php";
+//require_once "resources/Exceptions/exceptions.php";
+//require_once "resources/handlingtools.php";
 
 use Armor\Exceptions as Exceptions;
-use Armor\HandlingTools as HandlingTools;
+use Armor\Handle as Handle;
 
 use ArgumentCountError;
-use Armor\HandlingTools\Request;
-use Armor\HandlingTools\Response;
+use Armor\Handle\Request;
+use Armor\Handle\Response;
 use ArrayAccess;
 use TypeError;
 

@@ -21,7 +21,7 @@
     "autoload": {
         "psr-4": {
             "Armor\\": "src/",
-            "Armor\\HandlingTools\\": "src/resources",
+            "Armor\\Handle\\": "src/resources",
             "Armor\\Exceptions\\": "src/resources/Exceptions",
             "Armor\\Extensions\\": "src/extensions"
         }

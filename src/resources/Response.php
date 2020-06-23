@@ -1,6 +1,6 @@
 <?php
 
-namespace Armor\HandlingTools;
+namespace Armor\Handle;
 
 use Exception;
 use TypeError;
