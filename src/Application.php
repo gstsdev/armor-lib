@@ -88,9 +88,9 @@ class Application implements ArrayAccess {
         if (!is_callable($handler))
             throw new TypeError("Handler must be a function");
 
-        array_push($this->handlers[$methodname], new HandlingTools\Route($route, $params, $handler, $parsers));
+        array_push($this->handlers[$methodname], new Handle\Route($route, $params, $handler, $parsers));
 
-        return new HandlingTools\RouteInterface($this->handlers[$methodname][sizeof($this->handlers[$methodname])-1]);
+        return new Handle\RouteInterface($this->handlers[$methodname][sizeof($this->handlers[$methodname])-1]);
     }
 
     private function convertRouteToRegex($route) {
