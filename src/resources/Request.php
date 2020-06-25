@@ -2,14 +2,13 @@
 
 namespace Armor\Handle;
 
+use \Armor\Handle\RequestPath;
+use \Armor\Handle\RequestQueryParameters;
 use Exception;
 
-require "RequestQueryParameters.php";
-require "RequestPath.php";
-
 class Request {
-    public $path, $_query;
-    private $method;
+    public $path, $method;
+    private $_query;
 
     public function __construct($method, $path, $path_params=array(), $query_params=array())
     {

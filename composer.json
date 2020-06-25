@@ -21,9 +21,9 @@
     "autoload": {
         "psr-4": {
             "Armor\\": "src/",
-            "Armor\\Handle\\": "src/resources",
-            "Armor\\Exceptions\\": "src/resources/Exceptions",
-            "Armor\\Extensions\\": "src/extensions"
+            "Armor\\Handle\\": "src/Resources",
+            "Armor\\Exceptions\\": "src/Resources/Exceptions",
+            "Armor\\Extensions\\": "src/Extensions"
         }
     },
     "require-dev": {
