@@ -3,7 +3,11 @@
 namespace Armor\Handle;
 
 spl_autoload_register(function($class) {
-  require_once "./" . str_replace('\\', DIRECTORY_SEPARATOR, $class);
+  try {
+      require_once "./" . str_replace('\\', DIRECTORY_SEPARATOR, $class);
+  } catch(\Throwable $e) {
+      require "../../vendor/autoload.php";
+  }
 });
 
 use \Armor\Handle\Request;
