@@ -2,6 +2,10 @@
 
 namespace Armor\Handle;
 
+spl_autoload_register(function($class) {
+  require_once "./" . strreplace('\\', DIRECTORY_SEPARATOR, $class);
+});
+
 use \Armor\Handle\Request;
 use \Armor\Handle\Response;
 use \Armor\Handle\Route;
