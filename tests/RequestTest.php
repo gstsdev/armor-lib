@@ -1,6 +1,6 @@
 <?php
 
-use Armor\Handle\Request;
+use \Armor\Handle\Request;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase {

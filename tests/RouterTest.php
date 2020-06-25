@@ -1,7 +1,7 @@
 <?php
 
-use Armor\Handle\Router;
-use Armor\Handle\RouteInterface;
+use \Armor\Handle\Router;
+use \Armor\Handle\RouteInterface;
 use PHPUnit\Framework\TestCase;
 
 $GLOBALS['router'] = null;
