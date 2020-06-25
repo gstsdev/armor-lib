@@ -2,10 +2,6 @@
 
 namespace Armor;
 
-spl_autoload_register(function($class) {
-    require_once "./" . \strreplace('\\', DIRECTORY_SEPARATOR, $class);
-});
-
 require __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
