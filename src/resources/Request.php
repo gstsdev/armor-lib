@@ -3,7 +3,7 @@
 namespace Armor\Handle;
 
 spl_autoload_register(function($class) {
-    require_once "./" . strreplace('\\', DIRECTORY_SEPARATOR, $class);
+    require_once "./" . \strreplace('\\', DIRECTORY_SEPARATOR, $class);
 });
 
 use \Armor\Handle\RequestPath;
