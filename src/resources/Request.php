@@ -2,14 +2,6 @@
 
 namespace Armor\Handle;
 
-spl_autoload_register(function($class) {
-    try {
-        require_once "./" . str_replace('\\', DIRECTORY_SEPARATOR, $class);
-    } catch(\Throwable $e) {
-        require "../../vendor/autoload.php";
-    }
-});
-
 use \Armor\Handle\RequestPath;
 use \Armor\Handle\RequestQueryParameters;
 use Exception;
