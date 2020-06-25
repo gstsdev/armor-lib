@@ -1,8 +1,9 @@
 <?php
 
-use \Armor\Application;
-use \Armor\Handle\RouteInterface;
-use \Armor\Exceptions\ProhibitedMethodException;
+use Armor\Application;
+use Armor\Exceptions\ProhibitedMethodException;
+use Armor\Handle\Route;
+use Armor\Handle\RouteInterface;
 use PHPUnit\Framework\TestCase;
 
 $GLOBALS['app'] = null;
