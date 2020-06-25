@@ -10,12 +10,12 @@ use \Armor\Handle\RouteInterface;
 use TypeError;
 
 class Router {
-  private $handlers;
+  private $routes;
   private $fallbacks;
 
   public function __construct() {
 
-    $this->handlers = array(
+    $this->routes = array(
       'get' => array(), 
       'post' => array()
     );
@@ -37,7 +37,7 @@ class Router {
   public function doHandle(Request $request_object, Response $response_object) {
     $finalResponse = null;
 
-    foreach ($this->handlers[$request_object->method] as $route_handler) {
+    foreach ($this->routes[$request_object->method] as $route_handler) {
       if ($route_handler->match($path)) {
         $finalResponse = $route_handler->getCallback();
         $requestCustomParameters = $route_handler->getParsedRouteParameters();
@@ -99,9 +99,9 @@ class Router {
     if (!is_callable($route_handler))
       throw new TypeError("Handler must be a function");
 
-    array_push($this->handlers[$method], new Route($route_path, $params, $route_handler, $parsers));
+    array_push($this->routes[$method], new Route($route_path, $params, $route_handler, $parsers));
 
-    return new RouteInterface($this->handlers[$method][sizeof($this->handlers[$method])-1]);
+    return new RouteInterface($this->routes[$method][sizeof($this->routes[$method])-1]);
   }
 
   public function get(string $route_path, callable $route_handler) {

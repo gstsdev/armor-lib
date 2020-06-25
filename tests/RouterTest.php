@@ -12,7 +12,7 @@ class RouterTest extends TestCase {
 
     $this->assertInstanceOf(Router::class, $GLOBALS['router']);
 
-    $this->assertClassHasAttribute('handlers', Router::class);
+    $this->assertClassHasAttribute('routes', Router::class);
     $this->assertClassHasAttribute('fallbacks', Router::class);
   }
 
