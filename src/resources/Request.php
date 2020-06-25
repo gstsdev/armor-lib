@@ -2,8 +2,10 @@
 
 namespace Armor\Handle;
 
-use \Armor\Handle\RequestPath;
-use \Armor\Handle\RequestQueryParameters;
+require __DIR__."/../../vendor/autoload.php";
+
+use Armor\Handle\RequestPath;
+use Armor\Handle\RequestQueryParameters;
 use Exception;
 
 class Request {

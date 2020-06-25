@@ -2,10 +2,12 @@
 
 namespace Armor\Handle;
 
-use \Armor\Handle\Request;
-use \Armor\Handle\Response;
-use \Armor\Handle\Route;
-use \Armor\Handle\RouteInterface;
+require __DIR__."/../../vendor/autoload.php";
+
+use Armor\Handle\Request;
+use Armor\Handle\Response;
+use Armor\Handle\Route;
+use Armor\Handle\RouteInterface;
 
 use TypeError;
 
