@@ -9,10 +9,12 @@ class RequestPathTest extends TestCase {
 
         $this->assertInstanceOf(RequestPath::class, $path);
 
-        $this->assertClassHasAttribute('absolute', RequestPath::class);
+        // PHPUnit 9 doesn't support assertions with non-public class attributes
+
+        // $this->assertClassHasAttribute('absolute', RequestPath::class);
         $this->assertEquals('/user/12345/1', $path->absolute);
 
-        $this->assertClassHasAttribute('placeholders', RequestPath::class);
+        // $this->assertClassHasAttribute('placeholders', RequestPath::class);
         $this->assertEquals('12345', $path['userid']);
         $this->assertEquals('profile', $path['userinfo']);
 

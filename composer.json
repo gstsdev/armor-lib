@@ -1,6 +1,6 @@
 {
     "name": "14mpr0gr4mm3r/armor-lib",
-    "description": "Armor aims to be an useful routing (and more things) framework for back-end developers.",
+    "description": "Armor aims to be an useful routing framework for PHP developers.",
     "type": "library",
     "license": "GPL-3.0",
     "authors": [
@@ -27,6 +27,6 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "8"
+        "phpunit/phpunit": "^9"
     }
 }
