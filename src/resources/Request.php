@@ -3,6 +3,7 @@
 namespace Armor\Handle;
 
 // require __DIR__."/../../vendor/autoload.php";
+set_include_path(__DIR__);
 
 require_once "RequestPath.php";
 require_once "RequestQueryParameters.php";
