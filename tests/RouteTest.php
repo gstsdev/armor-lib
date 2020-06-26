@@ -1,6 +1,6 @@
 <?php
 
-use \Armor\Handle\Route;
+use Armor\Handle\Route;
 use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase {

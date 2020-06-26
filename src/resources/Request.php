@@ -2,7 +2,10 @@
 
 namespace Armor\Handle;
 
-require __DIR__."/../../vendor/autoload.php";
+// require __DIR__."/../../vendor/autoload.php";
+
+require_once "RequestPath.php";
+require_once "RequestQueryParameters.php";
 
 use Armor\Handle\RequestPath;
 use Armor\Handle\RequestQueryParameters;

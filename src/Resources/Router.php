@@ -2,7 +2,12 @@
 
 namespace Armor\Handle;
 
-require __DIR__."/../../vendor/autoload.php";
+// require __DIR__."/../../vendor/autoload.php";
+
+require_once "Request.php";
+require_once "Response.php";
+require_once "Route.php";
+require_once "RouteInterface.php";
 
 use Armor\Handle\Request;
 use Armor\Handle\Response;
