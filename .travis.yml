@@ -5,11 +5,6 @@ php:
 git:
   quiet: true
 
-before_script:
-  - ls
-
-os: windows
-
 install: composer install --prefer-dist --no-progress --no-suggest
 
 script:
