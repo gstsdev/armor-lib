@@ -5,7 +5,11 @@ php:
   - 7.4
 git:
   quiet: true
+
 before_script:
-  - DIRECTORIES=$(ls)
-  - echo $DIRECTORIES
-script: composer test
+  - ls
+
+install: composer install --prefer-dist --no-progress --no-suggest
+
+script:
+  - composer test
