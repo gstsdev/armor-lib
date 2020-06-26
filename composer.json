@@ -16,7 +16,7 @@
     },
     "keywords": ["php", "framework", "routing", "extensions", "armor-lib"],
     "require": {
-        "php": "^7.2"
+        "php": "^7.3"
     },
     "autoload": {
         "psr-4": {
