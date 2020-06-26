@@ -7,5 +7,5 @@ git:
   quiet: true
 before_script:
   - DIRECTORIES=$(ls)
-  - echo DIRECTORIES
+  - echo $DIRECTORIES
 script: composer test
