@@ -6,7 +6,7 @@ require_once __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
 
-use \Armor\Exceptions\ProhibitedMethodException;
+use \Armor\Exceptions\ProhibitedRouteRequestMethodException;
 
 use \Armor\Handle as Handle;
 
@@ -84,7 +84,7 @@ class Application implements ArrayAccess {
             //    $methodname = substr($methodname, 0, 3);
             //    return $this->extensions[$methodname]($args);
             //} else
-            throw new ProhibitedMethodException("Prohibited Method: {$methodname}");
+            throw new ProhibitedRouteRequestMethodException("Prohibited Route Request Method: {$methodname}");
         }
     }
 

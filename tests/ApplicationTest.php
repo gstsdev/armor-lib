@@ -31,11 +31,11 @@ class ApplicationTest extends TestCase {
         /// with the method `TestCase#expectException`
 
         // $this->expectException(ProhibitedMethodException::class);
-        $this->expectExceptionMessage('Prohibited Method: put');
+        $this->expectExceptionMessage('Prohibited Route Request Method: put');
         $GLOBALS['app']->put('/', function($req, $res) { return true; });
 
         // $this->expectException(ProhibitedMethodException::class);
-        $this->expectExceptionMessage('Prohibited Method: delete');
+        $this->expectExceptionMessage('Prohibited Route Request Method: delete');
         $GLOBALS['app']->delete('/', function($req, $res) { return true; });
     }
 }
