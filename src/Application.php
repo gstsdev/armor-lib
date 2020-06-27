@@ -84,7 +84,7 @@ class Application implements ArrayAccess {
             //    $methodname = substr($methodname, 0, 3);
             //    return $this->extensions[$methodname]($args);
             //} else
-            throw new Exceptions\ProhibitedMethodException("Prohibited Method: {$methodname}");
+            throw new ProhibitedMethodException("Prohibited Method: {$methodname}");
         }
     }
 
