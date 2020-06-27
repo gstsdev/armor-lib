@@ -2,21 +2,29 @@
 
 namespace Armor\Handle;
 
-require_once __DIR__."/../../vendor/autoload.php";
+// require_once __DIR__."/../../vendor/autoload.php";
 
-use Armor\Handle\RequestPath;
-use Armor\Handle\RequestQueryParameters;
+use \Armor\Handle\RequestPath;
+use \Armor\Handle\RequestQueryParameters;
+use \Armor\Handle\Route;
+
 use Exception;
 
+/**
+ * The representation of the request made to the application.
+ * All information stored in this class is currently passed
+ * by the `Application` class.
+ * 
+ */
 class Request {
     public $path, $method;
     private $_query;
 
-    public function __construct($method, $path, $path_params=array(), $query_params=array())
+    public function __construct($method, $path, $pathParameters=array(), $queryParameters=array())
     {
         $this->method = $method;
-        $this->path = new RequestPath($path, $path_params);
-        $this->_query = new RequestQueryParameters($query_params);
+        $this->path = new RequestPath($path, $pathParameters);
+        $this->_query = new RequestQueryParameters($queryParameters);
     }
 
     public function __get($name)
@@ -32,5 +40,9 @@ class Request {
             else
                 throw new Exception('Method doesn\'t have a request body');
         }
+    }
+
+    public function injectCustomParametersFromRoute(Route &$route) {
+        $this->path = new RequestPath($this->path->absolute, $route->getParsedRouteParameters());
     }
 }

@@ -9,10 +9,10 @@ class RequestPath implements ArrayAccess {
     public $absolute;
     private $placeholders;
 
-    public function __construct(string $absolute_path, array $path_placeholders)
+    public function __construct(string $absolutePath, array $pathPlaceholders)
     {
-        $this->absolute = $absolute_path;
-        $this->placeholders = $path_placeholders;
+        $this->absolute = $absolutePath;
+        $this->placeholders = $pathPlaceholders;
     }
 
     public function __get($param) {

@@ -3,8 +3,9 @@
 namespace Armor\Handle;
 
 /**
- * The interface to the route that the user may have access to.
- * It prevents from the user trying to modify the original route object.
+ * The interface to the route the user just defined.
+ * 
+ * This prevents the user from trying to modify the original route object.
  */
 class RouteInterface {
     private $route;

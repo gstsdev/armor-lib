@@ -6,8 +6,8 @@ require_once __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
 
-use Armor\Exceptions as Exceptions;
-use Armor\Handle as Handle;
+use \Armor\Exceptions as Exceptions;
+use \Armor\Handle as Handle;
 
 use ArgumentCountError;
 use ArrayAccess;
@@ -65,12 +65,12 @@ class Application implements ArrayAccess {
     public function offsetSet($offset, $value){}
     public function offsetUnset($offset){}
 
-    public function get(string $route_path, callable $route_handler) {
-        return $this->router->get($route_path, $route_handler);
+    public function get(string $routePath, callable $routeHandler) {
+        return $this->router->get($routePath, $routeHandler);
     }
 
-    public function post(string $route_path, callable $route_handler) {
-        return $this->router->post($route_path, $route_handler);
+    public function post(string $routePath, callable $routeHandler) {
+        return $this->router->post($routePath, $routeHandler);
     }
 
     /**
@@ -87,56 +87,39 @@ class Application implements ArrayAccess {
         }
     }
 
-    public function use($extension_name, ...$extension_addons) {
-        if (sizeof($extension_addons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
+    public function use($extensionName, ...$extensionAddons) {
+        if (sizeof($extensionAddons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
 
-        list($extension_argument, $extension_handler) = sizeof($extension_addons) < 2 ? [null, $extension_addons[0]] : $extension_addons;
+        list($extensionArgument, $extensionHandler) = sizeof($extensionAddons) < 2 ? [null, $extensionAddons[0]] : $extensionAddons;
 
-        switch($extension_name) {
+        switch($extensionName) {
             case 'fallback':
-                if (!is_string($extension_argument) || !is_callable($extension_handler))
+                if (!is_string($extensionArgument) || !is_callable($extensionHandler))
                     throw new TypeError("Fallback name must be a string and fallback handler must be a function");
                 
-                $this->router->setFallback($extension_argument, $extension_handler);
+                $this->router->setFallback($extensionArgument, $extensionHandler);
                 break;
             case 'router':
-                if(!is_a($extension_handler, Handle\Router::class))
+                if(!is_a($extensionHandler, Handle\Router::class))
                     throw new TypeError("Custom router must be of type {Handle\Router::class}");
 
-                $this->router = $extension_handler;
+                $this->router = $extensionHandler;
                 break;
             default:
                 //require "extensions/$extension_name/__all__.php";
                 //eval("use $extension_name;");
-                $this->extensions[$extension_name] = $extension_handler;
+                $this->extensions[$extensionName] = $extensionHandler;
                 break;
         }
     }
 
     /** 
-     * Starts to handle the requests,
-     * sending the response according
-     * to the handlers setted. 
-     * If the request route/path is
-     * not found, it sends a 404 page
+     * Starts to handle the requests
+     * using the router stored on 
+     * `$this->router`.
     */
     public function run() {
-        $requestCustomParameters = array();
-        $requestMethod = strtolower($_SERVER["REQUEST_METHOD"]);
-        $requestURI = $_SERVER["REQUEST_URI"];
-        
-        $path = parse_url($requestURI, PHP_URL_PATH);
-        parse_str(parse_url($requestURI, PHP_URL_QUERY), $query);
-
-        $requestBody = $requestMethod == "POST" ? $_POST : $query;
-
-        $result = $this->router->doHandle(
-            new Request($requestMethod, $path, $requestCustomParameters, $requestBody),
-            new Response($this->encoder)
-        );
-
-        if (!$result)
-            throw new Exceptions\ResponseNotCorrectlyCompletedException();
+        $this->router->doHandle();
     }
 
     public function __toString()
