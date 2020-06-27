@@ -1,6 +1,7 @@
 # armor-lib
 
 [![armor-lib on Packagist](https://img.shields.io/packagist/v/14mpr0gr4mm3r/armor-lib)](https://packagist.org/packages/14mpr0gr4mm3r/armor-lib)
+[![Build Status](https://travis-ci.org/14mPr0gr4mm3r/armor-lib.svg?branch=master)](https://travis-ci.org/14mPr0gr4mm3r/armor-lib)
 [![Armor-Lib Health](https://github.com/14mPr0gr4mm3r/armor-lib/workflows/Armor-Lib%20Health/badge.svg?branch=master)](https://github.com/14mPr0gr4mm3r/armor-lib/actions)
 [![PHP required version](https://img.shields.io/packagist/php-v/14mpr0gr4mm3r/armor-lib)](https://php.net)
 [![armor-lib Downloads](https://img.shields.io/packagist/dt/14mpr0gr4mm3r/armor-lib)](https://packagist.org/packages/14mpr0gr4mm3r/armor-lib/stats)
