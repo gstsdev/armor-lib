@@ -6,7 +6,8 @@ require_once __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
 
-use \Armor\Exceptions as Exceptions;
+use \Armor\Exceptions\ProhibitedMethodException;
+
 use \Armor\Handle as Handle;
 
 use ArgumentCountError;
