@@ -7,5 +7,7 @@ git:
 
 install: composer install --prefer-dist --no-progress --no-suggest
 
+before_script: composer dump-autoload
+
 script:
   - composer test
