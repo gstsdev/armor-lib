@@ -6,16 +6,16 @@ use ArrayAccess;
 use Exception;
 
 class RequestQueryParameters implements ArrayAccess {
-    private $query_array;
+    private $queryArray;
 
-    public function __construct($query_params_array)
+    public function __construct($queryParametersArray)
     {
-        $this->query_array = $query_params_array;
+        $this->queryArray = $queryParametersArray;
     }
 
     public function __get($param) {
-        if (in_array($param, array_keys($this->query_array)))
-            return $this->query_array[$param];
+        if (in_array($param, array_keys($this->queryArray)))
+            return $this->queryArray[$param];
         
         return null;
     }
@@ -27,7 +27,7 @@ class RequestQueryParameters implements ArrayAccess {
 
     public function offsetExists($offset)
     {
-        return isset($this->query_array[$offset]);
+        return isset($this->queryArray[$offset]);
     }
 
     public function offsetSet($offset, $value)
@@ -37,7 +37,7 @@ class RequestQueryParameters implements ArrayAccess {
 
     public function offsetUnset($offset)
     {
-        unset($this->query_array[$offset]);
+        unset($this->queryArray[$offset]);
     }
 
     public function getParam($param, $converter=null) {

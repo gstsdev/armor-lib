@@ -1,16 +1,16 @@
-<?php 
+<?php
+
 namespace Armor;
 
-require __DIR__."/../vendor/autoload.php";
+require_once __DIR__."/../vendor/autoload.php";
 //require_once "resources/Exceptions/exceptions.php";
 //require_once "resources/handlingtools.php";
 
-use Armor\Exceptions as Exceptions;
-use Armor\Handle as Handle;
+use \Armor\Exceptions\ProhibitedRouteRequestMethodException;
+
+use \Armor\Handle as Handle;
 
 use ArgumentCountError;
-use Armor\Handle\Request;
-use Armor\Handle\Response;
 use ArrayAccess;
 use TypeError;
 
@@ -19,38 +19,43 @@ const ALLOWED_METHODS = array('get', 'post');
 /**
  * Creates an Application instance, which
  * is responsible for setting the routes and
- * handling the requests
+ * handling the requests.
  * 
  * @param Callable $encoder
  */
 class Application implements ArrayAccess {
-    private $handlers, $fallbacks, $extensions;
+    private $extensions;
+    /**
+     * The encoder of the response.
+     */
     private $encoder;
-    private $customRouter;
+    /**
+     * The router to be used to handle
+     * each request received.
+     * 
+     * @var Handle\Router
+     */
+    private $router;
 
     public function __construct($encoder=null)
     {
-        $this->handlers = array(
-            'get' => array(), 
-            'post' => array()
-        );
-
-        $this->fallbacks = array(
-            '404' => function(Request $req, Response $res) {
-                return $res->end("<h1>404</h1>Not Found <i>{$req->path->absolute}</i>", 404);
-            }
-        );
         $this->extensions = array();
 
         $this->encoder = $encoder;
 
-        $this->customRouter = false;
+        $this->router = new Handle\Router;
+        $this->router->setFallback(
+            '404',
+            function(Request $req, Response $res) {
+              return $res->end("<h1>404</h1>Not Found <i>{$req->path->absolute}</i>", 404);
+            }
+        );
     }
 
     /**
      * It handles non-standard properties
-     * that Application instances can
-     * provide
+     * that Application instances may
+     * provide.
      */
     public function offsetGet($offset)
     {
@@ -61,11 +66,17 @@ class Application implements ArrayAccess {
     public function offsetSet($offset, $value){}
     public function offsetUnset($offset){}
 
+    public function get(string $routePath, callable $routeHandler) {
+        return $this->router->get($routePath, $routeHandler);
+    }
+
+    public function post(string $routePath, callable $routeHandler) {
+        return $this->router->post($routePath, $routeHandler);
+    }
+
     /**
      * It handles non-standard methods that
-     * the Application instance can provide
-     * 
-     * @return RouteInterface
+     * the Application instance may provide.
      */
     public function __call($methodname, $args) {
         if (!in_array($methodname, ALLOWED_METHODS)) {
@@ -73,116 +84,43 @@ class Application implements ArrayAccess {
             //    $methodname = substr($methodname, 0, 3);
             //    return $this->extensions[$methodname]($args);
             //} else
-            throw new Exceptions\ProhibitedMethodException("Prohibited Method: {$methodname}");
+            throw new ProhibitedRouteRequestMethodException("Prohibited Route Request Method: {$methodname}");
         }
-
-        if (sizeof($args) < 2 || sizeof($args) > 2)
-            throw new ArgumentCountError("It should have a route and a handler");
-
-        list($route, $handler) = $args;
-
-        $route = $route[0] != "/" ? "/" . $route : $route;
-
-        list($route, $params, $parsers) = $this->convertRouteToRegex($route);
-
-        if (!is_callable($handler))
-            throw new TypeError("Handler must be a function");
-
-        array_push($this->handlers[$methodname], new Handle\Route($route, $params, $handler, $parsers));
-
-        return new Handle\RouteInterface($this->handlers[$methodname][sizeof($this->handlers[$methodname])-1]);
     }
 
-    private function convertRouteToRegex($route) {
-        $params = array();
-        $parsers = array();
+    public function use($extensionName, ...$extensionAddons) {
+        if (sizeof($extensionAddons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
 
-        //$pathto = "/user/12085018232";
-        //$matching = "/user/$(userid)/$(userconfig)";
-        ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
+        list($extensionArgument, $extensionHandler) = sizeof($extensionAddons) < 2 ? [null, $extensionAddons[0]] : $extensionAddons;
 
-        $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
-            ///@debug print_r(array_slice($matches, 2));
-            $variable = $matches[1];
-            $params[$variable] = null;
-            $parsers[$variable] = $matches[2];
-            return "(\\w+)";
-        }, $route);
-
-        $rgx = "/^" . str_replace('/', '\/', $rgx) . "$/";
-
-        return array($rgx, $params, $parsers);
-    }
-
-    public function use($extension_name, ...$extension_addons) {
-        if (sizeof($extension_addons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
-
-        list($extension_argument, $extension_handler) = sizeof($extension_addons) < 2 ? [null, $extension_addons[0]] : $extension_addons;
-
-        switch($extension_name) {
+        switch($extensionName) {
             case 'fallback':
-                if (!is_string($extension_argument) || !is_callable($extension_handler))
+                if (!is_string($extensionArgument) || !is_callable($extensionHandler))
                     throw new TypeError("Fallback name must be a string and fallback handler must be a function");
-                $this->fallbacks[$extension_argument] = $extension_handler;
+                
+                $this->router->setFallback($extensionArgument, $extensionHandler);
                 break;
             case 'router':
-                $this->customRouter = $extension_handler;
+                if(!is_a($extensionHandler, Handle\Router::class))
+                    throw new TypeError("Custom router must be of type {Handle\Router::class}");
+
+                $this->router = $extensionHandler;
                 break;
             default:
                 //require "extensions/$extension_name/__all__.php";
                 //eval("use $extension_name;");
-                $this->extensions[$extension_name] = $extension_handler;
+                $this->extensions[$extensionName] = $extensionHandler;
                 break;
         }
     }
 
     /** 
-     * Starts to handle the requests,
-     * sending the response according
-     * to the handlers setted. 
-     * If the request route/path is
-     * not found, it sends a 404 page
-     * 
-     * Optionally, if a `customRouter` has been defined,
-     * all work to create request and response objects,
-     * to get the right request handler, and to generate
-     * exceptions in case of failures will be assigned to it.
+     * Starts to handle the requests
+     * using the router stored on 
+     * `$this->router`.
     */
     public function run() {
-        $requestCustomParameters = array();
-        $requestMethod = strtolower($_SERVER["REQUEST_METHOD"]);
-        $requestURI = $_SERVER["REQUEST_URI"];
-        
-        $path = parse_url($requestURI, PHP_URL_PATH);
-        parse_str(parse_url($requestURI, PHP_URL_QUERY), $query);
-
-        $requestBody = $requestMethod == "POST" ? $_POST : $query;
-
-        if (!$this->customRouter) {
-            $finalResponse = null;
-
-            foreach ($this->handlers[$requestMethod] as $route_handler) {
-                if ($route_handler->match($path)) {
-                    $finalResponse = $route_handler->getCallback();
-                    $requestCustomParameters = $route_handler->getParsedRouteParameters();
-                    break;
-                }
-            }
-
-            if ($finalResponse === null) {
-                $finalResponse = $this->fallbacks['404'];
-            }
-
-            $finalResponse = is_callable($finalResponse) ? $finalResponse->bindTo($this) : $finalResponse;
-
-            $result = call_user_func($finalResponse, new Request($requestMethod, $path, $requestCustomParameters, $requestBody), new Response($this->encoder));
-
-            if (!$result)
-                throw new Exceptions\ResponseCompletionNotCompletedException();
-
-        } else {
-            call_user_func($this->customRouter, $requestMethod, $path, $requestBody, $this->encoder);
-        }
+        $this->router->doHandle();
     }
 
     public function __toString()

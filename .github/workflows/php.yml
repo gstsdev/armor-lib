@@ -10,28 +10,28 @@ jobs:
   # TODO: make a "global step", to avoid repetition
   # in the workflows of each platform
 
-  build-linux:
-    name: Building (Ubuntu)
-    runs-on: ubuntu-latest
+  # build-linux:
+  #   name: Building (Ubuntu)
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+  #   steps:
+  #   - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate
+  #   - name: Validate composer.json and composer.lock
+  #     run: composer validate
 
-    # TODO: allow install and test steps to be separate
-    - name: Install dependencies and run tests
-      run: composer install --prefer-dist --no-progress --no-suggest && composer test
+  #   # TODO: allow install and test steps to be separate
+  #   - name: Install dependencies and run tests
+  #     run: composer install --prefer-dist --no-progress --no-suggest && composer test
     
-    # - name: Run the tests
-    #   run: composer test
+  #   # - name: Run the tests
+  #   #   run: composer test
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+  #   # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+  #   # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    # - name: Run test suite
-    #   run: composer run-script test
+  #   # - name: Run test suite
+  #   #   run: composer run-script test
       
   build-win32:
     name: Building (Windows)
@@ -46,30 +46,3 @@ jobs:
     # TODO: allow install and test steps to be separate
     - name: Install dependencies and run tests
       run: composer install --prefer-dist --no-progress --no-suggest && composer test
-    
-    # - name: Run the tests
-    #   run: composer test
-      
-# macOS Support will be stopped for now
-#   build-darwin:
-#     name: Building (macOS)
-#     runs-on: macos-latest
-
-#     steps:
-#     - uses: actions/checkout@v2
-
-#     - name: Validate composer.json and composer.lock
-#       uses: php-actions/composer@v1
-#       with:
-#         command: validate
-#       # run: composer validate
-
-#     - name: Install dependencies
-#       uses: php-actions/composer@v1
-#       with:
-#         command: install --prefer-dist --no-progress --no-suggest
-    
-#     - name: Run the tests
-#       uses: php-actions/composer@v1
-#       with:
-#         command: test

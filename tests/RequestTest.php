@@ -1,17 +1,37 @@
 <?php
 
 use Armor\Handle\Request;
+use Armor\Handle\Route;
 use PHPUnit\Framework\TestCase;
 
 class RequestTest extends TestCase {
     public function testNormallyCreatingInstance() {
-        $req = new Request('get', '/users/1234/1', ['user' => 1234, 'userinfo' => 'profile']);
+        $req = new Request('get', '/users/1234/1', ['user' => '1234', 'userinfo' => 'profile']);
 
         $this->assertInstanceOf(Request::class, $req);
 
+        
         $this->assertClassHasAttribute('path', Request::class);
-        $this->assertClassHasAttribute('_query', Request::class);
         $this->assertClassHasAttribute('method', Request::class);
+        // PHPUnit 9 doesn't support this anymore
+        // $this->assertClassHasAttribute('_query', Request::class);
+    }
+
+    public function testCreatesNewRequestPathOnInjectionOfParameters() {
+        $req = new Request('get', '/users/1234/1', []);
+        
+        $previousPath = $req->path;
+        
+        $route = new Route(
+            "/^\/users\/(\\w+)\/(\\w+)$/",
+            array('user' => '1234', 'userinfo' => 'profile'),
+            function($req, $res) {}
+        );
+
+        $req->injectCustomParametersFromRoute($route);
+        
+        $this->assertNotSame($previousPath, $req->path);
+        $this->assertNotEquals($previousPath, $req->path);
     }
 
     public function testOnlyAllowsQueryAttributeForGet() {

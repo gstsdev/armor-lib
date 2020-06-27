@@ -1,0 +1,13 @@
+language: php
+php:
+  - 7.3
+  - 7.4
+git:
+  quiet: true
+
+install: composer install --prefer-dist --no-progress --no-suggest
+
+before_script: composer dump-autoload
+
+script:
+  - composer test

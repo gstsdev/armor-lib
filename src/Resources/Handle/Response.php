@@ -5,6 +5,10 @@ namespace Armor\Handle;
 use Exception;
 use TypeError;
 
+/**
+ * The representation of the response to be sent to the
+ * user.
+ */
 class Response {
     private $responseConstructors = array();
     private $encoder;
@@ -58,9 +62,13 @@ class Response {
     public function append($constructor) {
         if (is_callable($constructor)) {
             array_push($this->responseConstructors, $constructor);
+            return true;
         } elseif (gettype($constructor) == "string") {
             array_push($this->responseConstructors, function() use($constructor) { return $constructor; });
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -104,7 +112,7 @@ class Response {
         $finalResponse = "";
 
         foreach ($this->responseConstructors as $constructor) {
-            $finalResponse .= "\n".call_user_func($constructor);
+            $finalResponse .= call_user_func($constructor)."\n";
         }
 
         $finalResponse .= $finalContent;
