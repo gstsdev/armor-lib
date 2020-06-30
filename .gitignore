@@ -2,10 +2,10 @@
 .phpunit.result.cache
 composer.lock
 
-/src/extensions/ArmorUI/__all__.php
-/src/extensions/DEV_ArmorSPA/
-/src/resources/handlingtools.php
-/src/resources/Exceptions/exceptions.php
+/src/Extensions/ArmorUI/__all__.php
+/src/Extensions/DEV_ArmorSPA/
+/src/Resources/handlingtools.php
+/src/Resources/Exceptions/exceptions.php
 
 /tests/index.php
 /tests/myroutes.php
