@@ -2,7 +2,7 @@
     "name": "14mpr0gr4mm3r/armor-lib",
     "description": "Armor aims to be an useful routing framework for PHP developers.",
     "type": "library",
-    "license": "GPL-3.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Gustavo Sampaio (14mPr0gr4mm3r)",
