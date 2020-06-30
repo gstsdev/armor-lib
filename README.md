@@ -12,15 +12,14 @@ Armor (**A** **R**outing and **MOR**e Things Framework) aims to be an useful rou
 It implements classes and methods to handle requests and respond them. And besides this, it can even receive **extensions**, or the famous "**plugins**", whatever you like to call it.
 
 Below, you can get started on how to install it, how to use it to handle requests and, for now, how to create templates
-and send them as response, by using the "native extension" (in future versions, the extensions will be 
-separate libraries), _ArmorUI_.
+and send them as response, by using the extension library, [_ArmorUI_](https://github.com/14mPr0gr4mm3r/armor-ui).
 
 
 ## Getting Started
 
 ### Installing Armor
 
-This step is very simple: just use _[Composer](https://getcomposer.org)_!
+This step is very simple: just use [_Composer_](https://getcomposer.org)!
 
 ```
 composer require 14mpr0gr4mm3r/armor-lib
@@ -64,7 +63,7 @@ $app = new Armor\Application();
 $app->run();
 ```
 
-**Note: you must create the file `.htaccess` to redirect all requests to the main (`index.php`) file**
+**Note: you should create the file `.htaccess` to redirect all requests to the main (`index.php`) file**
 
 Now, when talking about handling the requests properly, we must say that Armor offers a simple and easy way to handle a request, based on the method that has been used to perform it:
 
@@ -81,7 +80,9 @@ $app->post('/path/to', function() {
 
 At the moment, Armor only handles GET and POST requests. But, in the future, it may support more.
 
-The callback that is passed as argument must receive two parameters: a `Request` object and a `Response` object. The `Request` object provides information about the path requested, the search-query parameters, and the **path parameters**. The last name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
+The callback that is passed as argument must receive two parameters: a `Request` object and a `Response` object. 
+
+The `Request` object provides information about the path requested, the search-query parameters, and the **path parameters**. The last name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
 
 ```php
 $app->get('/path/to/$(section)', function(Request $req, Response $res) {
@@ -119,7 +120,7 @@ Well, there is a lot to know about Armor. In the future, it may be fully covered
 
 ### A little talk about using templates
 
-Armor offers a native extension for templates called _ArmorUI_. It provides (for now) two classes: `TemplateManager`, which is responsible for loading templates from their directories, and `Template`, which is the template object itself. It works like that:
+There is an extension library that can be used to create some UI, called _ArmorUI_. For now, it provides two classes: `TemplateManager`, which is responsible for loading templates from their directories, and `Template`, which is the template object itself. It works like that:
 
 ```php
 /** 
@@ -128,7 +129,7 @@ Armor offers a native extension for templates called _ArmorUI_. It provides (for
  * @license MIT
 */
 
-$templ = new Armor\Extensions\ArmorUI\TemplateManager("./", ['header', 'index']);
+$templ = new ArmorUI\TemplateManager("./", ['header', 'index']);
 
 $app->get('/', function(Request $req, Response $res) use($templ) {
     $templ->getTemplate('index')->sendAsResponse($res);
@@ -137,12 +138,14 @@ $app->get('/', function(Request $req, Response $res) use($templ) {
 });
 ```
 
-Here, we loaded two templates: "_header.templ.armor_" and "_index.templ.armor_". They are on the same directory that the source file is. We load the manager from the inside of the closure, and use it for loading the `index` template (`getTemplate`) and sending it. For sending the template, we pass the `Response` object by reference to the `Template#sendAsResponse` method. And then, we finish the request handling process.
+Here, we loaded two templates: "_header.templ.armor_" and "_index.templ.armor_". They are on the same directory that the 
+source file is. We load the manager from the inside of the closure, and use it to load the `index` template (`getTemplate`) and to 
+send it. For sending the template, we pass the `Response` object by reference to the `Template#sendAsResponse` method. And then, we finish the request handling process.
 
 Instead, to avoid adding the `use` keyword to "request handling closures", we could use the `Application#use` method, like this:
 
 ```php
-$templ = new Armor\Extensions\ArmorUI\TemplateManager("./", ['header', 'index']);
+$templ = new ArmorUI\TemplateManager("./", ['header', 'index']);
 
 $app->use('templ', $templ);
 
@@ -155,6 +158,6 @@ $app->get('/', function(Request $req, Response $res) {
 
 ## Final Considerations
 
-I admit that was a very few lines, but in the future, the quality and detail of the documentation might get better.
+I admit that those were a very few lines. But, in the future, the quality and detail of the documentation might get better.
 
 Good studies, from 14mPr0gr4mm3r.

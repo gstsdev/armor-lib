@@ -2,7 +2,7 @@
 .phpunit.result.cache
 composer.lock
 
-/src/Extensions/DEV_ArmorSPA/
+/src/Extensions/
 
 /tests/index.php
 /tests/myroutes.php
