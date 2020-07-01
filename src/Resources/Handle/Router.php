@@ -17,10 +17,11 @@ use TypeError;
  * of the application instance.
  */
 class Router {
+  private $encoder;
   private $routes;
   private $fallbacks;
 
-  public function __construct() {
+  public function __construct($encoder) {
 
     $this->routes = array(
       'get' => array(), 
@@ -29,6 +30,7 @@ class Router {
 
     $this->fallbacks = array();
 
+    $this->encoder = $encoder;
   }
 
   /**
@@ -109,13 +111,13 @@ class Router {
    * not found or doesn't exists, 
    * it sends a 404 page.
    */
-  public function doHandle() {
+  public function doHandle(Application &$parentApplication) {
     $finalResponse = null;
 
     list($requestObject, $responseObject) = [$this->buildRequestObject(), $this->buildResponseObject()];
 
     foreach ($this->routes[$requestObject->method] as $route) {
-      if ($route->match($path)) {
+      if ($route->match($requestObject->path->absolute)) {
         $finalResponse = $route->getCallback();
         $requestObject->injectCustomParametersFromRoute($route);
         // $requestCustomParameters = $route->getParsedRouteParameters();
@@ -130,7 +132,7 @@ class Router {
         throw new TypeError("Handling function expected, '{gettype($finalResponse)}' got");
     }
 
-    $finalResponse->bindTo($this);
+    $finalResponse->bindTo($parentApplication);
 
     $result = call_user_func(
       $finalResponse,

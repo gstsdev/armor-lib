@@ -2,9 +2,9 @@
 
 namespace Armor;
 
-require_once __DIR__."/../vendor/autoload.php";
-//require_once "resources/Exceptions/exceptions.php";
-//require_once "resources/handlingtools.php";
+// require_once __DIR__."/../vendor/autoload.php";
+// require_once "resources/Exceptions/exceptions.php";
+// require_once "resources/handlingtools.php";
 
 use \Armor\Exceptions\ProhibitedRouteRequestMethodException;
 
@@ -50,7 +50,7 @@ class Application implements ArrayAccess {
 
         $this->encoder = $encoder;
 
-        $this->router = new Handle\Router;
+        $this->router = new Handle\Router($encoder);
         $this->router->setFallback(
             '404',
             function(Request $req, Response $res) {
@@ -145,7 +145,7 @@ class Application implements ArrayAccess {
      * `$this->router`.
     */
     public function run() {
-        $this->router->doHandle();
+        $this->router->doHandle($this);
     }
 
     public function __toString()
