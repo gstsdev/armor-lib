@@ -80,7 +80,8 @@ $app->post('/path/to', function() {
 
 At the moment, Armor only handles GET and POST requests. But, in the future, it may support more.
 
-The callback that is passed as argument must receive two parameters: a `Request` object and a `Response` object. 
+The callback that is passed as argument must receive **at least** two parameters: a `Request` object and 
+a `Response` object.
 
 The `Request` object provides information about the path requested, the search-query parameters, and the **path parameters**. The last name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
 
@@ -142,19 +143,23 @@ Here, we loaded two templates: "_header.templ.armor_" and "_index.templ.armor_".
 source file is. We load the manager from the inside of the closure, and use it to load the `index` template (`getTemplate`) and to 
 send it. For sending the template, we pass the `Response` object by reference to the `Template#sendAsResponse` method. And then, we finish the request handling process.
 
-Instead, to avoid adding the `use` keyword to "request handling closures", we could use the `Application#use` method, like this:
+Instead, to avoid adding the `use` keyword to "request handling closures", we could use the `Application#use` method, 
+like this:
 
 ```php
 $templ = new ArmorUI\TemplateManager("./", ['header', 'index']);
 
 $app->use('templ', $templ);
 
-$app->get('/', function(Request $req, Response $res) {
-    $this['templ']->getTemplate('index')->sendAsResponse($res);
+$app->get('/', function(Request $req, Response $res, Application $app) {
+    $app['templ']->getTemplate('index')->sendAsResponse($res);
 
     return $res->end();
 });
 ```
+
+And here, we see the third, but **optional**, parameter: the `Application` instance created by the user and used to 
+define the route.
 
 ## Final Considerations
 

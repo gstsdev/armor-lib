@@ -111,7 +111,7 @@ class Router {
    * not found or doesn't exists, 
    * it sends a 404 page.
    */
-  public function doHandle(Application &$parentApplication) {
+  public function doHandle(\Armor\Application &$parentApplication) {
     $finalResponse = null;
 
     list($requestObject, $responseObject) = [$this->buildRequestObject(), $this->buildResponseObject()];
@@ -132,12 +132,11 @@ class Router {
         throw new TypeError("Handling function expected, '{gettype($finalResponse)}' got");
     }
 
-    $finalResponse->bindTo($parentApplication);
-
     $result = call_user_func(
       $finalResponse,
       $requestObject,
-      $responseObject
+      $responseObject,
+      $parentApplication
     );
 
     if (!$result)
