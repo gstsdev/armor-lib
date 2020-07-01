@@ -5,26 +5,32 @@ use Armor\Handle\RouteInterface;
 use Armor\Handle\Router;
 use PHPUnit\Framework\TestCase;
 
-$GLOBALS['router'] = null;
-
 class RouterTest extends TestCase {
   public function testNormallyCreatingInstance() {
-    $GLOBALS['router'] = new Router();
+    $router = new Router(null);
 
-    $this->assertInstanceOf(Router::class, $GLOBALS['router']);
+    $this->assertInstanceOf(Router::class, $router);
 
     // PHPUnit 9 doesn't support this anymore
     // $this->assertClassHasAttribute('routes', Router::class);
     // $this->assertClassHasAttribute('fallbacks', Router::class);
+
+    return $router;
   }
 
-  public function testAddsRequestHandlersViaConventionalMethod() {
-    $this->assertInstanceOf(RouteInterface::class, $GLOBALS['router']->get('/', function($req, $res) { return true; }));
-    $this->assertInstanceOf(RouteInterface::class, $GLOBALS['router']->post('/', function($req, $res) { return true; }));
+  /**
+   * @depends testNormallyCreatingInstance
+   */
+  public function testAddsRequestHandlersViaConventionalMethod(Router $router) {
+    $this->assertInstanceOf(RouteInterface::class, $router->get('/', function($req, $res) { return true; }));
+    $this->assertInstanceOf(RouteInterface::class, $router->post('/', function($req, $res) { return true; }));
   }
 
-  public function testAddsRequestHandlersViaGlobalMethod() {
-    $this->assertInstanceOf(RouteInterface::class, $GLOBALS['router']->registerRoute('get', '/', function($req, $res) { return true; }));
-    $this->assertInstanceOf(RouteInterface::class, $GLOBALS['router']->registerRoute('post', '/', function($req, $res) { return true; }));
+  /**
+   * @depends testNormallyCreatingInstance
+   */
+  public function testAddsRequestHandlersViaGlobalMethod(Router $router) {
+    $this->assertInstanceOf(RouteInterface::class, $router->registerRoute('get', '/', function($req, $res) { return true; }));
+    $this->assertInstanceOf(RouteInterface::class, $router->registerRoute('post', '/', function($req, $res) { return true; }));
   }
 }
