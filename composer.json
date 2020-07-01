@@ -1,5 +1,5 @@
 {
-    "name": "14mpr0gr4mm3r/armor-lib",
+    "name": "armor/framework",
     "description": "Armor aims to be an useful routing framework for PHP developers.",
     "type": "library",
     "license": "MIT",
