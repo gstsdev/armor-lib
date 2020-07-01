@@ -5,6 +5,10 @@ namespace Armor\Handle;
 use ArrayAccess;
 use Exception;
 
+/**
+ * The representation of the query parameters passed to
+ * the request made to the application.
+ */
 class RequestQueryParameters implements ArrayAccess {
     private $queryArray;
 
@@ -32,7 +36,10 @@ class RequestQueryParameters implements ArrayAccess {
 
     public function offsetSet($offset, $value)
     {
-        throw new Exception("Query parameters (for now) are read-only");
+        // When I say "for now", I say thinking of the possibility
+        // to change this query parameters object and redirect the user
+        // to an "updated page". But, as I said, it's just a "thinking" 
+        throw new Exception("Query parameters are (for now) read-only");
     }
 
     public function offsetUnset($offset)

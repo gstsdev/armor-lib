@@ -57,7 +57,10 @@ class Response {
     }
 
     /**
-     * Append some content to the response page
+     * Append some content to the response.
+     * 
+     * @param string|callable $constructor
+     * @return bool
      */
     public function append($constructor) {
         if (is_callable($constructor)) {
@@ -74,7 +77,9 @@ class Response {
     /**
      * It's a self implementation of native "header" function.
      * 
-     * It allows the use of constants aiming a more easy functionality
+     * @param string $headername The header to be set. It allows the use of constants 
+     * aiming a more easy functionality.
+     * @param string|int $headervalue The value to set on the header. 
      */
     public function setHeader($headername, $headervalue) {
         $headername = $this->getHeaderIdentifier($headername);
@@ -82,6 +87,11 @@ class Response {
         array_unshift($this->responseConstructors, function() use($headername, $headervalue) { header("$headername: $headervalue"); });
     }
 
+    /**
+     * Parses the header name passed to `setHeader`.
+     * 
+     * @return string
+     */
     private function getHeaderIdentifier($code) {
         if (is_int($code)) {
             switch($code) {

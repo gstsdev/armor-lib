@@ -31,10 +31,24 @@ class Router {
 
   }
 
+  /**
+   * Define a route which request method must be `GET`.
+   * 
+   * A shorthand to `$this->registerRoute("get", $routePath, $routeHandler)`.
+   * 
+   * @return RouteInterface
+   */
   public function get(string $routePath, callable $routeHandler) {
     return $this->registerRoute("get", $routePath, $routeHandler);
   }
 
+  /**
+   * Define a route which request method must be `POST`.
+   * 
+   * A shorthand to `$this->registerRoute("post", $routePath, $routeHandler)`.
+   * 
+   * @return RouteInterface
+   */
   public function post(string $routePath, callable $routeHandler) {
     return $this->registerRoute("post", $routePath, $routeHandler);
   }
@@ -59,6 +73,11 @@ class Router {
     return new RouteInterface($this->routes[$method][sizeof($this->routes[$method])-1]);
   }
 
+  /**
+   * Perform the appropriate parsing to obtain a regex from the path string.
+   * 
+   * @return array
+   */
   private function convertRoutePathToRegex($routePath) {
     $params = array();
     $parsers = array();
@@ -89,8 +108,6 @@ class Router {
    * If the requested route/path is
    * not found or doesn't exists, 
    * it sends a 404 page.
-   * 
-   * @return int|bool
    */
   public function doHandle() {
     $finalResponse = null;
@@ -100,7 +117,7 @@ class Router {
     foreach ($this->routes[$requestObject->method] as $route) {
       if ($route->match($path)) {
         $finalResponse = $route->getCallback();
-        $requestObject->injectCustomParameters($route);
+        $requestObject->injectCustomParametersFromRoute($route);
         // $requestCustomParameters = $route->getParsedRouteParameters();
         break;
       }
@@ -125,6 +142,12 @@ class Router {
       throw new Exceptions\ResponseNotCorrectlyCompletedException();
   }
 
+  /**
+   * Build the `Request` object that will be passed to the callback
+   * defined by the user to the route.
+   * 
+   * @return Request
+   */
   private function buildRequestObject() {
     $requestMethod = strtolower($_SERVER["REQUEST_METHOD"]);
     $requestURI = $_SERVER["REQUEST_URI"];
@@ -137,10 +160,22 @@ class Router {
     return new Request($requestMethod, $path, [], $requestBody);
   }
 
+  /**
+   * Build the `Response` object that will be passed to the callback
+   * defined by the user to the route.
+   * 
+   * @return Response
+   */
   private function buildResponseObject() {
     return new Response($this->encoder);
   }
 
+  /**
+   * Sets a fallback to the router.
+   * 
+   * It's used by the `Application` class to set the default fallback
+   * to the _404 - Not Found_ page.
+   */
   public function setFallback(string $fallbackName, callable $fallbackHandler) {
     $this->fallbacks[$fallbackName] = $fallbackHandler;
   }

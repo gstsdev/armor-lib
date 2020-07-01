@@ -14,7 +14,9 @@ class RouteInterface {
         $this->route =& $route;
     }
 
-    /** Should be used to set a custom parser, beyond the ones provided by Armor */
+    /**
+     * Should be used to set a custom parser, beyond the ones provided by Armor
+     */
     public function setParser(callable $parser) {
         $this->route->_addParser($parser);
     }

@@ -12,11 +12,17 @@ use Exception;
 
 /**
  * The representation of the request made to the application.
- * All information stored in this class is currently passed
- * by the `Application` class.
+ * All information stored in this class is passed
+ * by the `Router` class.
  * 
+ * @property RequestQueryParameters query
+ * @property RequestQueryParameters body
  */
 class Request {
+    /**
+     * @var RequestPath $path
+     * @var string $method
+     */
     public $path, $method;
     private $_query;
 
@@ -42,6 +48,14 @@ class Request {
         }
     }
 
+    /**
+     * Inject the value of each path parameter from the route object.
+     * It's currently used by the `Router` class.
+     * 
+     * Behind the scenes, this method creates a new `RequestPath` object.
+     * 
+     * @param Route &$route
+     */
     public function injectCustomParametersFromRoute(Route &$route) {
         $this->path = new RequestPath($this->path->absolute, $route->getParsedRouteParameters());
     }

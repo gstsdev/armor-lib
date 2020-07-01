@@ -5,7 +5,13 @@ namespace Armor\Handle;
 use ArrayAccess;
 use Exception;
 
+/**
+ * The representation of the path requested to application.
+ * This class is also responsible for storing the "path parameters",
+ * which were parsed on the `Route` object.
+ */
 class RequestPath implements ArrayAccess {
+    /** @var string */
     public $absolute;
     private $placeholders;
 

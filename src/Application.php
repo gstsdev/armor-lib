@@ -24,9 +24,16 @@ const ALLOWED_METHODS = array('get', 'post');
  * @param Callable $encoder
  */
 class Application implements ArrayAccess {
+    /**
+     * The extensions that the user may have defined.
+     * 
+     * @var array
+     */
     private $extensions;
     /**
      * The encoder of the response.
+     * 
+     * @var callable
      */
     private $encoder;
     /**
@@ -66,10 +73,20 @@ class Application implements ArrayAccess {
     public function offsetSet($offset, $value){}
     public function offsetUnset($offset){}
 
+    /**
+     * Define a route which request method must be `GET`.
+     * 
+     * @return Handle\RouteInterface
+     */
     public function get(string $routePath, callable $routeHandler) {
         return $this->router->get($routePath, $routeHandler);
     }
 
+    /**
+     * Define a route which request method must be `POST`.
+     * 
+     * @return Handle\RouteInterface
+     */
     public function post(string $routePath, callable $routeHandler) {
         return $this->router->post($routePath, $routeHandler);
     }
@@ -88,6 +105,14 @@ class Application implements ArrayAccess {
         }
     }
 
+    /**
+     * Define an extension that the application will use, and
+     * that the developer may get via the "subscription syntax"
+     * allowed by this class.
+     * 
+     * @param string $extensionName
+     * @param array<any> $extensionAddons
+     */
     public function use($extensionName, ...$extensionAddons) {
         if (sizeof($extensionAddons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
 
@@ -102,7 +127,7 @@ class Application implements ArrayAccess {
                 break;
             case 'router':
                 if(!is_a($extensionHandler, Handle\Router::class))
-                    throw new TypeError("Custom router must be of type {Handle\Router::class}");
+                    throw new TypeError("Custom router must be of type " . Handle\Router::class);
 
                 $this->router = $extensionHandler;
                 break;
