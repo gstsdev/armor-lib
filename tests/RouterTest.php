@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase {
   public function testNormallyCreatingInstance() {
-    $router = new Router(null);
+    $router = new Router();
 
     $this->assertInstanceOf(Router::class, $router);
 

@@ -21,7 +21,7 @@ class Router {
   private $routes;
   private $fallbacks;
 
-  public function __construct($encoder) {
+  public function __construct($encoder=null) {
 
     $this->routes = array(
       'get' => array(), 
