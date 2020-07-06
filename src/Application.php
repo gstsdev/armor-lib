@@ -112,7 +112,7 @@ class Application implements ArrayAccess {
      * @ignore
      */
     public function __call($methodname, $args) {
-        if (!in_array($methodname, ALLOWED_METHODS)) {
+        if (!in_array($methodname, Application::ALLOWED_METHODS)) {
             //if (substr($methodname, 0, 3) == "ext") {
             //    $methodname = substr($methodname, 0, 3);
             //    return $this->extensions[$methodname]($args);
