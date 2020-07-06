@@ -8,10 +8,23 @@ use TypeError;
 /**
  * The representation of the response to be sent to the
  * user.
+ * 
+ * @param \callable $encoder The encoder of the response. Default is `utf8_encode`.
  */
 class Response {
+    /** 
+     * The functions that are used to build the final response content 
+     * 
+     * @var \array<\callable>
+     */
     private $responseConstructors = array();
+    /** 
+     * The encoder of the response. Default is `utf8_encode`.
+     * 
+     * @var \callable 
+     */
     private $encoder;
+
     const JSON_PARSE = 0;
 
     /**
@@ -23,19 +36,23 @@ class Response {
 
     public function __construct($encoder=null)
     {
-        $this->encoder = $encoder ? $encoder : function($data) { return utf8_encode($data); };
+        $this->encoder = $encoder !== null ? $encoder : function($data) { return utf8_encode($data); };
     }
 
     /**
-     * Loads (and returns) the content from a HTTP page or a local file
-     * @param string $pathto The path to the file
-     * @param callback $parser (optional) A function to parse the content
-     * @return string|object Content of the requested file (parsed or not)
+     * Loads (and returns) the content from a HTTP page or a local file.
+     * 
+     * @param \string $pathto The path to the file
+     * @param \callable $parser (optional) A function to parse the content
+     * @return \string|\object|\null Content of the requested file (parsed or not)
      */
     public static function loadContentFrom($pathto, $parser=null) {
+        if (!is_file($pathto))
+            return null;
+
         $content = file_get_contents($pathto);
         
-        if ($parser && is_integer($parser)) {
+        if ($parser !== null && is_integer($parser)) {
             switch($parser) {
                 case 0:
                     $parser = function($data) { return json_decode($data, true); };
@@ -45,7 +62,7 @@ class Response {
             }
         }
 
-        if ($parser) {
+        if ($parser !== null) {
             if (is_callable($parser)) {
                 $content = call_user_func($parser, $content);
             } else {
@@ -59,8 +76,8 @@ class Response {
     /**
      * Append some content to the response.
      * 
-     * @param string|callable $constructor
-     * @return bool
+     * @param \string|\callable $constructor
+     * @return \bool
      */
     public function append($constructor) {
         if (is_callable($constructor)) {
@@ -77,9 +94,9 @@ class Response {
     /**
      * It's a self implementation of native "header" function.
      * 
-     * @param string $headername The header to be set. It allows the use of constants 
+     * @param \string $headername The header to be set. It allows the use of constants 
      * aiming a more easy functionality.
-     * @param string|int $headervalue The value to set on the header. 
+     * @param \string|\int $headervalue The value to set on the header. 
      */
     public function setHeader($headername, $headervalue) {
         $headername = $this->getHeaderIdentifier($headername);
@@ -90,7 +107,8 @@ class Response {
     /**
      * Parses the header name passed to `setHeader`.
      * 
-     * @return string
+     * @param \string|\int $code
+     * @return \string
      */
     private function getHeaderIdentifier($code) {
         if (is_int($code)) {
@@ -110,11 +128,10 @@ class Response {
     }
 
     /**
-     * Finishes the response, appending a
-     * last content to it
+     * Finishes the response, appending a last content to it.
      * 
-     * @param string $finalContent An optional content to add at bottom of the (response) page. Default is empty ("").
-     * @param int $finalResponseCode An optional response code to set. Default is 200.
+     * @param \string $finalContent An optional content to add at bottom of the (response) page. Default is empty ("").
+     * @param \int $finalResponseCode An optional response code to set. Default is 200.
      */
     public function end($finalContent="", $finalResponseCode=200) {
         http_response_code($finalResponseCode);

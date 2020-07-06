@@ -83,7 +83,7 @@ At the moment, Armor only handles GET and POST requests. But, in the future, it 
 The callback that is passed as argument must receive **at least** two parameters: a `Request` object and 
 a `Response` object.
 
-The `Request` object provides information about the path requested, the search-query parameters, and the **path parameters**. The last name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
+The `Request` object provides information about the path requested, the search-query parameters, and the **route parameters**. The last name may not sound familiar, but if you are a back-end developer, you might have seen something like this:
 
 ```php
 $app->get('/path/to/$(section)', function(Request $req, Response $res) {

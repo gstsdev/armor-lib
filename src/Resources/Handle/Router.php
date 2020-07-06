@@ -15,10 +15,30 @@ use TypeError;
 /**
  * This class is used to create the default and custom routers
  * of the application instance.
+ * 
+ * @param callable $encoder The encoder of the response. It's passed to the `Response` object.
  */
 class Router {
+  /**
+   * The encoder of the response. It's passed to the `Response` object.
+   * 
+   * @var \callable
+   */
   private $encoder;
+  /**
+   * The array of routes predefined by the class, and populated with
+   * the definitions of the framework user.
+   * 
+   * @var \array
+   */
   private $routes;
+  /**
+   * The set of possible fallbacks that may be defined by the framework user,
+   * or even by the framework classes itselves, like the `Application` class (which
+   * defines the `404` fallback).
+   * 
+   * @var \array
+   */
   private $fallbacks;
 
   public function __construct($encoder=null) {
@@ -38,6 +58,8 @@ class Router {
    * 
    * A shorthand to `$this->registerRoute("get", $routePath, $routeHandler)`.
    * 
+   * @param \string $routePath
+   * @param \callable $routeHandler
    * @return RouteInterface
    */
   public function get(string $routePath, callable $routeHandler) {
@@ -49,6 +71,8 @@ class Router {
    * 
    * A shorthand to `$this->registerRoute("post", $routePath, $routeHandler)`.
    * 
+   * @param \string $routePath
+   * @param \callable $routeHandler
    * @return RouteInterface
    */
   public function post(string $routePath, callable $routeHandler) {
@@ -78,7 +102,8 @@ class Router {
   /**
    * Perform the appropriate parsing to obtain a regex from the path string.
    * 
-   * @return array
+   * @param \string $routePath The path string to be converted to a "path regex string".
+   * @return \array
    */
   private function convertRoutePathToRegex($routePath) {
     $params = array();
@@ -110,6 +135,9 @@ class Router {
    * If the requested route/path is
    * not found or doesn't exists, 
    * it sends a 404 page.
+   * 
+   * @param \Armor\Application &$parentApplication The application instance defined by the user and which is 
+   * calling this method.
    */
   public function doHandle(\Armor\Application &$parentApplication) {
     $finalResponse = null;
@@ -176,6 +204,9 @@ class Router {
    * 
    * It's used by the `Application` class to set the default fallback
    * to the _404 - Not Found_ page.
+   * 
+   * @param \string $fallbackName
+   * @param \callable $fallbackHandler
    */
   public function setFallback(string $fallbackName, callable $fallbackHandler) {
     $this->fallbacks[$fallbackName] = $fallbackHandler;

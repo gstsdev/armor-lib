@@ -16,11 +16,44 @@ $GLOBALS['__PARSERS'] = array(
  * is where the path regexes, the parsers and the callback of each path
  * are stored.
  * 
+ * @param \string $routePattern The regex that provides information about 
+ * if the path requested corresponds to this route.
+ * @param \array $routeParameters The route parameters definitions.
+ * @param \callable $routeCallback The callback that will be used to handle the request.
+ * @param \array $parsers The parsers of each route parameter, if any.
+ * 
  * @see Router
  */
 class Route {
-    private $pattern, $callback;
-    private $parameters, $parsers;
+    /**
+     * The regex that provides information about if the path requested corresponds to this route.
+     * @var \string
+     */
+    private $pattern;
+    /**
+     * The callback that will be used to handle the request.
+     * 
+     * @var \callable
+     */
+    private $callback;
+    /**
+     * The route parameters definitions.
+     * 
+     * @var \array
+     */
+    private $parameters;
+    /**
+     * The parsers of each route parameter, if any.
+     * 
+     * @var \array
+     */
+    private $parsers;
+    /**
+     * The custom parser defined by the framework user. It's should usually be set via `Route#_addParser`,
+     * which is accessible via `RouteInterface#setParser`.
+     * 
+     * @var \callable
+     */
     private $customParser;
 
     public function __construct(
@@ -38,10 +71,10 @@ class Route {
     /**
      * Returns if the path requested (`$pathto`) can be handled by this route object.
      * And at the same time, only if the path matches, parses the path to get the 
-     * "path parameters" specified previously.
+     * "route/path parameters" specified previously.
      * 
-     * @param string $pathto The path requested by the user
-     * @return bool TRUE if it does, FALSE if it doesn't
+     * @param \string $pathto The path requested by the user
+     * @return \bool TRUE if it does, FALSE if it doesn't
      */
     public function match(string $pathto) {
         $rgxMatches = preg_match($this->pattern, $pathto, $values);
@@ -72,13 +105,15 @@ class Route {
      * Returns the callback setted by the user to the route
      * represented by this class object.
      * 
-     * @return callable
+     * @return \callable
      */
     public function getCallback() { return $this->callback; }
 
     /**
-     * Returns the path parameters defined by the user and parsed
+     * Returns the route/path parameters defined by the user and parsed
      * by this class.
+     * 
+     * @return \array
      */
     public function getParsedRouteParameters() {
         if (in_array(null, array_values($this->parameters))) throw new Exception("parsing parameters failed", 1);
@@ -87,9 +122,11 @@ class Route {
     }
 
     /**
-     * Sets a custom parser to the value passed to some path parameter.
+     * Sets a custom parser to the value passed to some route/path parameter.
      * The user may not have access to the `Route` object directly, so,
      * this is used by the `RouteInterface` class.
+     * 
+     * @param \callable $parser The custom parser to be used during the route parameter parsing.
      */
     public function _addParser(callable $parser) {
         $this->customParser = $parser;

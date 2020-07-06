@@ -4,6 +4,9 @@ composer.lock
 
 /src/Extensions/
 
+# ignore for a while
+/docs/
+
 /tests/index.php
 /tests/myroutes.php
 /tests/.htaccess

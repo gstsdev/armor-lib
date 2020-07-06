@@ -2,8 +2,6 @@
 
 namespace Armor\Handle;
 
-// require_once __DIR__."/../../vendor/autoload.php";
-
 use \Armor\Handle\RequestPath;
 use \Armor\Handle\RequestQueryParameters;
 use \Armor\Handle\Route;
@@ -15,15 +13,23 @@ use Exception;
  * All information stored in this class is passed
  * by the `Router` class.
  * 
- * @property RequestQueryParameters query
- * @property RequestQueryParameters body
+ * @param \string $method The method used to perform the request represented by this class
+ * @param \string $path The path requested
+ * @param \array $pathParameters The route/path parameters, defined by the framework user and parsed from `$path`
+ * @param \array $queryParameters The query parameters of the request
+ * 
+ * @property-read RequestQueryParameters query
+ * @property-read RequestQueryParameters body
  */
 class Request {
     /**
-     * @var RequestPath $path
-     * @var string $method
+     * @var RequestPath $path The object that stores the parameters `$path` and `$pathParameters`
+     * @var \string $method The method used to perform the request represented by this
      */
     public $path, $method;
+    /**
+     * @ignore
+     */
     private $_query;
 
     public function __construct($method, $path, $pathParameters=array(), $queryParameters=array())
@@ -49,7 +55,7 @@ class Request {
     }
 
     /**
-     * Inject the value of each path parameter from the route object.
+     * Inject the value of each route/path parameter from the route object.
      * It's currently used by the `Router` class.
      * 
      * Behind the scenes, this method creates a new `RequestPath` object.
