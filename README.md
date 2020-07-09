@@ -1,4 +1,4 @@
-# armor-lib
+# armor-lib (x.y.z)
 
 [![Packagist Version](https://img.shields.io/packagist/v/armor/framework)](https://packagist.org/packages/armor/framework)
 [![Build Status](https://travis-ci.org/14mPr0gr4mm3r/armor-lib.svg?branch=master)](https://travis-ci.org/14mPr0gr4mm3r/armor-lib)
