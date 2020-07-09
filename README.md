@@ -1,4 +1,4 @@
-# armor-lib
+# armor-lib (1.2.x)
 
 [![Packagist Version](https://img.shields.io/packagist/v/armor/framework)](https://packagist.org/packages/armor/framework)
 [![Build Status](https://travis-ci.org/14mPr0gr4mm3r/armor-lib.svg?branch=1.2.x)](https://travis-ci.org/14mPr0gr4mm3r/armor-lib)
@@ -6,6 +6,9 @@
 [![Minimum PHP Version Support](https://img.shields.io/packagist/php-v/armor/framework)](https://php.net)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/armor/framework)](https://packagist.org/packages/armor/framework/stats)
 [![License](https://img.shields.io/packagist/l/armor/framework)](https://github.com/14mPr0gr4mm3r/armor-lib/blob/master/LICENSE)
+
+> **Note**: this branch is related only to Armor 1.2.x versions. That is, any modifications that would take Armor to
+&ge;1.3 or &ge;2.0, for example, should not be made to this repository, but to the [default branch](https://github.com/14mPr0gr4mm3r/armor-lib/branches).
 
 Armor (**A** **R**outing and **MOR**e Things Framework) aims to be an useful routing framework for PHP developers.
 
