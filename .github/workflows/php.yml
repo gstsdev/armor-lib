@@ -1,38 +1,16 @@
 name: Armor Health
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+# every push or PR made to any branch, must be
+# analyzed
+on: [push, pull_request]
 
-jobs:
-  # TODO: make a "global step", to avoid repetition
-  # in the workflows of each platform
+# on:
+#   push:
+#     branches: [ master ]
+#   pull_request:
+#     branches: [ master ]
 
-  # build-linux:
-  #   name: Building (Ubuntu)
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name: Validate composer.json and composer.lock
-  #     run: composer validate
-
-  #   # TODO: allow install and test steps to be separate
-  #   - name: Install dependencies and run tests
-  #     run: composer install --prefer-dist --no-progress --no-suggest && composer test
-    
-  #   # - name: Run the tests
-  #   #   run: composer test
-
-  #   # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-  #   # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-  #   # - name: Run test suite
-  #   #   run: composer run-script test
-      
+jobs:      
   build-win32:
     name: Building (Windows)
     runs-on: windows-latest
