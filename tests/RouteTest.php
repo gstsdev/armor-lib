@@ -5,9 +5,9 @@ use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase {
     public function testNormallyCreatingInstance() {
-        $GLOBALS['route'] = new Route('/^\/path\/(\w+)\/to$/', ['section' => null], function($req, $res) { return true; });
+        $route = new Route('/^\/path\/(\w+)\/to$/', ['section' => null], function($req, $res) { return true; });
 
-        $this->assertInstanceOf(Route::class, $GLOBALS['route']);
+        $this->assertInstanceOf(Route::class, $route);
 
         /*
          * $pattern, $callback;
@@ -21,15 +21,20 @@ class RouteTest extends TestCase {
         // $this->assertClassHasAttribute('parameters', Route::class);
         // $this->assertClassHasAttribute('parsers', Route::class);
         // $this->assertClassHasAttribute('custom_parser', Route::class);
+
+        return $route;
     }
 
-    public function testMatchesSpecificPaths() {
-        $this->assertTrue((bool)$GLOBALS['route']->match('/path/123/to'));
-        $this->assertTrue((bool)$GLOBALS['route']->match('/path/123456/to'));
-        $this->assertTrue((bool)$GLOBALS['route']->match('/path/123456789/to'));
-        $this->assertFalse((bool)$GLOBALS['route']->match('/path/to'));
-        $this->assertFalse((bool)$GLOBALS['route']->match('/def/1234/to'));
-        $this->assertFalse((bool)$GLOBALS['route']->match('/123/456/789'));
+    /**
+     * @depends testNormallyCreatingInstance
+     */
+    public function testMatchesSpecificPaths(Route $route) {
+        $this->assertTrue((bool)$route->match('/path/123/to'));
+        $this->assertTrue((bool)$route->match('/path/123456/to'));
+        $this->assertTrue((bool)$route->match('/path/123456789/to'));
+        $this->assertFalse((bool)$route->match('/path/to'));
+        $this->assertFalse((bool)$route->match('/def/1234/to'));
+        $this->assertFalse((bool)$route->match('/123/456/789'));
     }
 
     public function testCanParseRouteParameters() {

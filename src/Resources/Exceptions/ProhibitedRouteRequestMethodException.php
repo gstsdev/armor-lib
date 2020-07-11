@@ -3,7 +3,7 @@ namespace Armor\Exceptions;
 
 /**
  * This exception is thrown when route methods that are not
- * implemented are request by the framework users.
+ * implemented are used by the framework users.
  * 
  * @property string $message
  */
