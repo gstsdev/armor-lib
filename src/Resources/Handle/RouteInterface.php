@@ -7,7 +7,6 @@ namespace Armor\Handle;
  * 
  * This prevents the user from trying to modify the original route object.
  * 
- * @param Route $route A reference to the route that this object is "linked to".
  */
 class RouteInterface {
     /**
@@ -17,6 +16,9 @@ class RouteInterface {
      */
     private $route;
 
+    /**
+     * @param Route $route A reference to the route that this object is "linked to".
+     */
     public function __construct(Route $route) {
         $this->route =& $route;
     }

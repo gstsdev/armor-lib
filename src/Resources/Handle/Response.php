@@ -5,11 +5,20 @@ namespace Armor\Handle;
 use Exception;
 use TypeError;
 
+function _is_valid_resource_path(string $path) {
+    $_is_http_resource = (
+        substr($path, 0, strlen("http://")) == "http://"
+        ||
+        substr($path, 0, strlen("https://")) == "https://"
+    );
+
+    return $_is_http_resource || is_file($path);
+}
+
 /**
  * The representation of the response to be sent to the
  * user.
  * 
- * @param \callable $encoder The encoder of the response. Default is `utf8_encode`.
  */
 class Response {
     /** 
@@ -21,7 +30,7 @@ class Response {
     /** 
      * The encoder of the response. Default is `utf8_encode`.
      * 
-     * @var \callable 
+     * @var \callable
      */
     private $encoder;
 
@@ -34,6 +43,9 @@ class Response {
     const HEADER_CONTENT_TYPE = 11;
     const HEADER_CONTENT_ENCODE = 12;
 
+    /**
+     * @param \callable|null $encoder The encoder of the response. Default is `utf8_encode`.
+     */
     public function __construct($encoder=null)
     {
         $this->encoder = $encoder !== null ? $encoder : function($data) { return utf8_encode($data); };
@@ -47,7 +59,7 @@ class Response {
      * @return \string|\object|\null Content of the requested file (parsed or not)
      */
     public static function loadContentFrom($pathto, $parser=null) {
-        if (!is_file($pathto))
+        if (!_is_valid_resource_path($pathto))
             return null;
 
         $content = file_get_contents($pathto);
@@ -83,7 +95,7 @@ class Response {
         if (is_callable($constructor)) {
             array_push($this->responseConstructors, $constructor);
             return true;
-        } elseif (gettype($constructor) == "string") {
+        } elseif (is_string($constructor)) {
             array_push($this->responseConstructors, function() use($constructor) { return $constructor; });
             return true;
         }
@@ -101,7 +113,12 @@ class Response {
     public function setHeader($headername, $headervalue) {
         $headername = $this->getHeaderIdentifier($headername);
 
-        array_unshift($this->responseConstructors, function() use($headername, $headervalue) { header("$headername: $headervalue"); });
+        array_unshift(
+            $this->responseConstructors, 
+            function() use($headername, $headervalue) {
+                header("$headername: $headervalue");
+            }
+        );
     }
 
     /**

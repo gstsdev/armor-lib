@@ -10,8 +10,6 @@ use Exception;
  * This class is also responsible for storing the "route/path parameters",
  * which were parsed on the `Route` object.
  * 
- * @param \string $absolutePath The actual path requested to the application
- * @param \array $pathPlaceholders The route/path parameters
  */
 class RequestPath implements ArrayAccess {
     /** 
@@ -27,6 +25,10 @@ class RequestPath implements ArrayAccess {
      */
     private $placeholders;
 
+    /**
+     * @param \string $absolutePath The actual path requested to the application
+     * @param \array $pathPlaceholders The route/path parameters
+     */
     public function __construct(string $absolutePath, array $pathPlaceholders)
     {
         $this->absolute = $absolutePath;

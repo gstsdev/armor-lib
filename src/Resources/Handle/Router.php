@@ -16,13 +16,12 @@ use TypeError;
  * This class is used to create the default and custom routers
  * of the application instance.
  * 
- * @param callable $encoder The encoder of the response. It's passed to the `Response` object.
  */
 class Router {
   /**
    * The encoder of the response. It's passed to the `Response` object.
    * 
-   * @var \callable
+   * @var \callable|null
    */
   private $encoder;
   /**
@@ -41,6 +40,9 @@ class Router {
    */
   private $fallbacks;
 
+  /**
+   * @param \callable|null $encoder The encoder of the response. It's passed to the `Response` object.
+   */
   public function __construct($encoder=null) {
 
     $this->routes = array(

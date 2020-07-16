@@ -9,7 +9,6 @@ use Exception;
  * The representation of the query parameters passed to
  * the request made to the application.
  * 
- * @param \array $queryParametersArray The associative array that represents the query parameters
  */
 class RequestQueryParameters implements ArrayAccess {
     /**
@@ -19,6 +18,9 @@ class RequestQueryParameters implements ArrayAccess {
      */
     private $queryArray;
 
+    /**
+     * @param \array $queryParametersArray The associative array that represents the query parameters
+     */
     public function __construct($queryParametersArray)
     {
         $this->queryArray = $queryParametersArray;

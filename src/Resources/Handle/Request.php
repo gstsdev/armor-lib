@@ -13,11 +13,6 @@ use Exception;
  * All information stored in this class is passed
  * by the `Router` class.
  * 
- * @param \string $method The method used to perform the request represented by this class
- * @param \string $path The path requested
- * @param \array $pathParameters The route/path parameters, defined by the framework user and parsed from `$path`
- * @param \array $queryParameters The query parameters of the request
- * 
  * @property-read RequestQueryParameters query
  * @property-read RequestQueryParameters body
  */
@@ -32,6 +27,12 @@ class Request {
      */
     private $_query;
 
+    /**
+     * @param \string $method The method used to perform the request represented by this class
+     * @param \string $path The path requested
+     * @param \array $pathParameters The route/path parameters, defined by the framework user and parsed from `$path`
+     * @param \array $queryParameters The query parameters of the request
+     */
     public function __construct($method, $path, $pathParameters=array(), $queryParameters=array())
     {
         $this->method = $method;
