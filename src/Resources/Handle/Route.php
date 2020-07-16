@@ -16,12 +16,7 @@ $GLOBALS['__PARSERS'] = array(
  * is where the path regexes, the parsers and the callback of each path
  * are stored.
  * 
- * @param \string $routePattern The regex that provides information about 
- * if the path requested corresponds to this route.
- * @param \array $routeParameters The route parameters definitions.
- * @param \callable $routeCallback The callback that will be used to handle the request.
- * @param \array $parsers The parsers of each route parameter, if any.
- * 
+ *  
  * @see Router
  */
 class Route {
@@ -56,6 +51,13 @@ class Route {
      */
     private $customParser;
 
+    /**
+     * @param \string $routePattern The regex that provides information about 
+     * if the path requested corresponds to this route.
+     * @param \array $routeParameters The route parameters definitions.
+     * @param \callable $routeCallback The callback that will be used to handle the request.
+     * @param \array $parsers The parsers of each route parameter, if any.
+     */
     public function __construct(
         string $routePattern,
         array $routeParameters,
