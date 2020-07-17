@@ -20,7 +20,6 @@ use TypeError;
  * is responsible for setting the routes and
  * handling the requests.
  * 
- * @param \callable $encoder
  */
 class Application implements ArrayAccess {
     /**
@@ -45,6 +44,9 @@ class Application implements ArrayAccess {
 
     const ALLOWED_METHODS = array('get', 'post');
 
+    /**
+     * @param \callable $encoder
+     */
     public function __construct($encoder=null)
     {
         $this->extensions = array();
