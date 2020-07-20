@@ -123,7 +123,9 @@ class Router {
       return "(\\w+)";
     }, $routePath);
 
-    $rgx = "/^" . str_replace('/', '\/', $rgx) . "$/";
+    $rgx = str_replace('/', '\/', $rgx);
+    $rgx = str_replace('-', '\-', $rgx);
+    $rgx = "/^" . $rgx . "$/";
 
     return array($rgx, $params, $parsers);
   }
