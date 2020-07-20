@@ -115,6 +115,8 @@ class Router {
     //$matching = "/user/$(userid)/$(userconfig)";
     ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
 
+    $routePath = str_replace('-', '\-', $routePath);
+
     $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
       ///@debug print_r(array_slice($matches, 2));
       $variable = $matches[1];
@@ -124,7 +126,6 @@ class Router {
     }, $routePath);
 
     $rgx = str_replace('/', '\/', $rgx);
-    $rgx = str_replace('-', '\-', $rgx);
     $rgx = "/^" . $rgx . "$/";
 
     return array($rgx, $params, $parsers);
