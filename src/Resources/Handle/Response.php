@@ -2,6 +2,8 @@
 
 namespace Armor\Handle;
 
+use \Armor\Handle\ExtensibleObject;
+
 use Exception;
 use TypeError;
 

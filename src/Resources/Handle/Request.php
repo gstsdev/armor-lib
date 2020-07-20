@@ -2,6 +2,7 @@
 
 namespace Armor\Handle;
 
+use \Armor\Handle\ExtensibleObject;
 use \Armor\Handle\RequestPath;
 use \Armor\Handle\RequestQueryParameters;
 use \Armor\Handle\Route;
