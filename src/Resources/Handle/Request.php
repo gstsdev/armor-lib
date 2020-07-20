@@ -15,8 +15,10 @@ use Exception;
  * 
  * @property-read RequestQueryParameters query
  * @property-read RequestQueryParameters body
+ * 
+ * @see \Armor\Handle\ExtensibleObject
  */
-class Request {
+class Request extends ExtensibleObject {
     /**
      * @var RequestPath $path The object that stores the parameters `$path` and `$pathParameters`
      * @var \string $method The method used to perform the request represented by this
@@ -35,6 +37,7 @@ class Request {
      */
     public function __construct($method, $path, $pathParameters=array(), $queryParameters=array())
     {
+        parent::__construct();
         $this->method = $method;
         $this->path = new RequestPath($path, $pathParameters);
         $this->_query = new RequestQueryParameters($queryParameters);
@@ -52,6 +55,8 @@ class Request {
                 return $this->_query;
             else
                 throw new Exception('Method doesn\'t have a request body');
+        } else {
+            return parent::__get($name);
         }
     }
 

@@ -50,16 +50,25 @@ class ApplicationTest extends TestCase {
      * @depends testNormallyCreatingInstance
      */
     public function testDoesStoreInternalUsableVariablesOnInstance(Application $app) {
-        $app->use('foo', 'Foo');
-        $this->assertNotNull($app['foo']);
-        $this->assertEquals($app['foo'], 'Foo');
+        $app->set('foo1', 'Foo');
+        $app->use('foo2', 'Foo');
+        $this->assertNotNull($app['foo1']);
+        $this->assertNotNull($app['foo2']);
+        $this->assertEquals($app['foo1'], 'Foo');
+        $this->assertEquals($app['foo2'], 'Foo');
 
-        $app->use('bar', 123);
-        $this->assertNotNull($app['bar']);
-        $this->assertEquals($app['bar'], 123);
+        $app->set('bar1', 123);
+        $app->use('bar2', 123);
+        $this->assertNotNull($app['bar1']);
+        $this->assertNotNull($app['bar2']);
+        $this->assertEquals($app['bar1'], 123);
+        $this->assertEquals($app['bar2'], 123);
 
-        $app->use('boo', 3.14);
-        $this->assertNotNull($app['boo']);
-        $this->assertEquals($app['boo'], 3.14);
+        $app->set('boo1', 3.14);
+        $app->use('boo2', 3.14);
+        $this->assertNotNull($app['boo1']);
+        $this->assertNotNull($app['boo2']);
+        $this->assertEquals($app['boo1'], 3.14);
+        $this->assertEquals($app['boo2'], 3.14);
     }
 }

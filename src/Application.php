@@ -20,7 +20,6 @@ use TypeError;
  * is responsible for setting the routes and
  * handling the requests.
  * 
- * @param \callable $encoder
  */
 class Application implements ArrayAccess {
     /**
@@ -45,6 +44,9 @@ class Application implements ArrayAccess {
 
     const ALLOWED_METHODS = array('get', 'post');
 
+    /**
+     * @param \callable $encoder
+     */
     public function __construct($encoder=null)
     {
         $this->extensions = array();
@@ -61,11 +63,11 @@ class Application implements ArrayAccess {
     }
 
     /**
+     * @ignore
+     * 
      * It handles non-standard properties
      * that Application instances may
      * provide.
-     * 
-     * @ignore
      */
     public function offsetGet($offset)
     {
@@ -106,10 +108,10 @@ class Application implements ArrayAccess {
     }
 
     /**
-     * It handles non-standard methods that
-     * the Application instance may provide.
-     * 
      * @ignore
+     * 
+     * It handles non-standard methods that
+     * the Application instance may provide. 
      */
     public function __call($methodname, $args) {
         if (!in_array($methodname, Application::ALLOWED_METHODS)) {
@@ -122,19 +124,22 @@ class Application implements ArrayAccess {
     }
 
     /**
-     * @ignore
-     * 
-     * Define an extension that the application will use, and
+     * Define an extension that the application will use and
      * that the developer may get via the "subscription syntax"
-     * allowed by this class.
+     * allowed by this class, or defines a fallback on the router,
+     * or even defines a custom router.
      * 
      * @param \string $extensionName
      * @param \array $extensionAddons
      */
-    public function use($extensionName, ...$extensionAddons) {
-        if (sizeof($extensionAddons) == 0) throw new ArgumentCountError("The 'use' method requires not only a name for a service or extension, but also arguments for it");
+    public function set($extensionName, ...$extensionAddons) {
+        if (sizeof($extensionAddons) == 0)
+            throw new ArgumentCountError("The 'use' method requires not only a name for a service" . 
+                                         "or extension, but also arguments for it");
 
-        list($extensionArgument, $extensionHandler) = sizeof($extensionAddons) < 2 ? [null, $extensionAddons[0]] : $extensionAddons;
+        list($extensionArgument, $extensionHandler) = sizeof($extensionAddons) < 2
+                                                      ? [null, $extensionAddons[0]]
+                                                      : $extensionAddons;
 
         switch($extensionName) {
             case 'fallback':
@@ -155,6 +160,25 @@ class Application implements ArrayAccess {
                 $this->extensions[$extensionName] = $extensionHandler;
                 break;
         }
+    }
+
+    /**
+     * @ignore
+     * 
+     * Define an extension that the application will use and
+     * that the developer may get via the "subscription syntax"
+     * allowed by this class, or defines a fallback on the router,
+     * or even defines a custom router.
+     * 
+     * This is deprecated. Now it's just an alias to `Application#set()`,
+     * which you should use instead from now.
+     * 
+     * @deprecated
+     * @param \string $extensionName
+     * @param \array $extensionAddons
+     */
+    public function use($extensionName, ...$extensionAddons) {
+        $this->set($extensionName, ...$extensionAddons);
     }
 
     /** 

@@ -33,4 +33,38 @@ class ResponseTest extends TestCase {
 
     $this->assertTrue($result);
   }
+
+  /**
+   * @depends testNormallyCreatingInstance
+   */
+  public function testCanReceiveExternalAdditionalFieldsAndFunctions(Response $res) {
+    $res->foo = "Foo";
+    $this->assertNotNull($res->foo);
+    $this->assertEquals($res->foo, "Foo");
+
+    $res->bar = function() {
+      return "Hello, World!";
+    };
+    $this->assertNotNull($res->bar);
+    $this->assertTrue(is_callable($res->bar));
+    $this->assertEquals($res->bar(), "Hello, World!");
+
+    return $res;
+  }
+
+  /**
+   * @depends testCanReceiveExternalAdditionalFieldsAndFunctions
+   */
+  public function testReturnsNullToNonExistentFieldsAndThrowsErrorToNonCallableField(Response $res) {
+    $this->assertNull($res->boo);
+    $this->assertNull($res->faa);
+
+    $undefinedMethod1 = "amazingAction";
+    $this->expectExceptionMessage("'$undefinedMethod1' is not a method, or does not exist");
+    $res->{$undefinedMethod1}();
+
+    $undefinedMethod2 = "veryAwesomeProcedure";
+    $this->expectExceptionMessage("'$undefinedMethod2' is not a method, or does not exist");
+    $res->{$undefinedMethod2}();
+  }
 }

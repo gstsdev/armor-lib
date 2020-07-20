@@ -19,12 +19,13 @@ function _is_valid_resource_path(string $path) {
  * The representation of the response to be sent to the
  * user.
  * 
+ * @see \Armor\Handle\ExtensibleObject
  */
-class Response {
+class Response extends ExtensibleObject {
     /** 
      * The functions that are used to build the final response content 
      * 
-     * @var \array<\callable>
+     * @var \callable[]
      */
     private $responseConstructors = array();
     /** 
@@ -48,6 +49,7 @@ class Response {
      */
     public function __construct($encoder=null)
     {
+        parent::__construct();
         $this->encoder = $encoder !== null ? $encoder : function($data) { return utf8_encode($data); };
     }
 
