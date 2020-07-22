@@ -14,17 +14,24 @@ use Exception;
  * All information stored in this class is passed
  * by the `Router` class.
  * 
- * @property-read RequestQueryParameters query
- * @property-read RequestQueryParameters body
+ * @property-read RequestQueryParameters $query The query parameters, if the request method was `GET`
+ * @property-read RequestQueryParameters $body The request body, if the request method was `POST`
  * 
  * @see \Armor\Handle\ExtensibleObject
  */
 class Request extends ExtensibleObject {
     /**
-     * @var RequestPath $path The object that stores the parameters `$path` and `$pathParameters`
-     * @var \string $method The method used to perform the request represented by this
+     * The object that stores the parameters `$path` and `$pathParameters`.
+     * 
+     * @var RequestPath
      */
-    public $path, $method;
+    public $path;
+    /**
+     * The method used to perform the request represented by this.
+     * 
+     * @var \string
+     */
+    public $method;
     /**
      * @ignore
      */

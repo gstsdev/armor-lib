@@ -7,6 +7,15 @@ use \Armor\Handle\ExtensibleObject;
 use Exception;
 use TypeError;
 
+/**
+ * It's used by the `Response` class. It returns `true`,
+ * if `$path` seems to be a HTTP resource, or if `$path`
+ * corresponds to a local, regular, file.
+ * 
+ * @param string $path The path to be analyzed.
+ * 
+ * @return bool
+ */
 function _is_valid_resource_path(string $path) {
     $_is_http_resource = (
         substr($path, 0, strlen("http://")) == "http://"

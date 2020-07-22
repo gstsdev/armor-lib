@@ -5,7 +5,29 @@ namespace Armor\Handle;
 /**
  * This class allow its own instances and/or its subclasses
  * instances to receive additional, external-defined, fields
- * or functions.
+ * or functions. 
+ * 
+ * They can be added like this:
+ * ```
+ * $obj = new ExtensibleObject(); // or its subclass instance
+ * 
+ * $obj->field = 123;
+ * 
+ * $obj->func = function() {
+ *  echo "Hello, World!";
+ * };
+ * ```
+ * 
+ * However, as PHP has a limitation related to the contexts where
+ * the `$this` identifier can be used, the access of the additional
+ * fields can be performed only with the `use` clausule of anonymous
+ * functions:
+ * 
+ * ```
+ * $obj->method = function() use($obj) {
+ *  echo "Field value: {$obj->field}";
+ * };
+ * ```
  * 
  * This class is the super-class of both the `Request` and
  * `Response` classes.
@@ -17,8 +39,12 @@ class ExtensibleObject {
    * 
    * @var array
    */
-  private $extensions;
+  protected $extensions;
 
+  /**
+   * Creates a new `ExtensibleObject`, which can receive additional
+   * fields or functions.
+   */
   public function __construct() {
     $this->extensions = array();
   }

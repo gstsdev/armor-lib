@@ -47,11 +47,8 @@ class Route {
     private $customParser;
 
     /**
-     * @param \string $routePattern The regex that provides information about 
-     * if the path requested corresponds to this route.
-     * @param \array $routeParameters The route parameters definitions.
+     * @param \string $routePath The path that is being expected by the framework user to be requested.
      * @param \callable $routeCallback The callback that will be used to handle the request.
-     * @param \array $parsers The parsers of each route parameter, if any.
      */
     public function __construct(
         string $routePath,
