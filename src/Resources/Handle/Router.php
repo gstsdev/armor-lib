@@ -116,13 +116,12 @@ class Router {
     ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
 
     $routePath = str_replace('-', '\-', $routePath);
-
     $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
       ///@debug print_r(array_slice($matches, 2));
       $variable = $matches[1];
       $params[$variable] = null;
       $parsers[$variable] = $matches[2];
-      return "([A-Za-z0-9\-_%]+)";
+      return "((?=[A-Za-z0-9\-\._~]+)(?=[0-9A-Fa-f%]*)[A-Za-z0-9\-\._%]+)";
     }, $routePath);
 
     $rgx = str_replace('/', '\/', $rgx);
