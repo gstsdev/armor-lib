@@ -134,7 +134,7 @@ class Application implements ArrayAccess {
      */
     public function set($extensionName, ...$extensionAddons) {
         if (sizeof($extensionAddons) == 0)
-            throw new ArgumentCountError("The 'use' method requires not only a name for a service" . 
+            throw new ArgumentCountError("This method requires not only a name for a service " . 
                                          "or extension, but also arguments for it");
 
         list($extensionArgument, $extensionHandler) = sizeof($extensionAddons) < 2
