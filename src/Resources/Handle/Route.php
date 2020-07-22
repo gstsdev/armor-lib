@@ -54,16 +54,42 @@ class Route {
      * @param \array $parsers The parsers of each route parameter, if any.
      */
     public function __construct(
-        string $routePattern,
-        array $routeParameters,
-        callable $routeCallback,
-        array $parsers=array()
+        string $routePath,
+        callable $routeCallback
     ) {
-        $this->pattern = $routePattern;
+        list($this->pattern, $this->parameters, $this->parsers) = $this->convertRoutePathToRegex($routePath);
         $this->callback = $routeCallback;
-        $this->parameters = $routeParameters;
-        $this->parsers = $parsers;
     }
+
+    /**
+     * Perform the appropriate parsing to obtain a regex from the path string.
+     * 
+     * @param \string $routePath The path string to be converted to a "path regex string".
+     * @return \array
+     */
+    private function convertRoutePathToRegex($routePath) {
+        $params = array();
+        $parsers = array();
+
+        //$pathto = "/user/12085018232";
+        //$matching = "/user/$(userid)/$(userconfig)";
+        ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
+
+        $routePath = str_replace('-', '\-', $routePath);
+        $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
+            ///@debug print_r(array_slice($matches, 2));
+            $variable = $matches[1];
+            $params[$variable] = null;
+            $parsers[$variable] = $matches[2];
+            return "((?=[A-Za-z0-9\-\._~]+)(?=[0-9A-Fa-f%]*)[A-Za-z0-9\-\._%]+)";
+        }, $routePath);
+
+        $rgx = str_replace('/', '\/', $rgx);
+        $rgx = "/^" . $rgx . "$/";
+
+        return array($rgx, $params, $parsers);
+    }
+
 
     /**
      * Returns if the path requested (`$pathto`) can be handled by this route object.

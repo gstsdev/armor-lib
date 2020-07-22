@@ -25,10 +25,10 @@ class RequestTest extends TestCase {
         $previousPath = $req->path;
         
         $route = new Route(
-            "/^\/users\/(\\w+)\/(\\w+)$/",
-            array('user' => '1234', 'userinfo' => 'profile'),
+            "/users/$(user)/$(userinfo)",
             function($req, $res) {}
         );
+        $this->assertTrue((bool)$route->match('/users/1234/profile'));
 
         $req->injectCustomParametersFromRoute($route);
         
