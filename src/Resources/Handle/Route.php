@@ -91,7 +91,7 @@ class Route {
 
         for ($i = 0; $i < sizeof($values); $i++) {
             $key = array_keys($this->parameters)[$i];
-            $this->parameters[$key] = $values[$i];
+            $this->parameters[$key] = urldecode($values[$i]);
             if (array_key_exists($key, $this->parsers) && $this->parsers[$key] && trim($this->parsers[$key]) != '') {
                 $parsers = array_filter(explode(':', $this->parsers[$key]), function($item) { return (bool)$item;});
                 ///@debug print_r($parsers);
