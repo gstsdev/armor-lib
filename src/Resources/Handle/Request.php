@@ -2,6 +2,7 @@
 
 namespace Armor\Handle;
 
+use \Armor\Handle\ExtensibleObject;
 use \Armor\Handle\RequestPath;
 use \Armor\Handle\RequestQueryParameters;
 use \Armor\Handle\Route;
@@ -13,15 +14,24 @@ use Exception;
  * All information stored in this class is passed
  * by the `Router` class.
  * 
- * @property-read RequestQueryParameters query
- * @property-read RequestQueryParameters body
+ * @property-read RequestQueryParameters $query The query parameters, if the request method was `GET`
+ * @property-read RequestQueryParameters $body The request body, if the request method was `POST`
+ * 
+ * @see \Armor\Handle\ExtensibleObject
  */
-class Request {
+class Request extends ExtensibleObject {
     /**
-     * @var RequestPath $path The object that stores the parameters `$path` and `$pathParameters`
-     * @var \string $method The method used to perform the request represented by this
+     * The object that stores the parameters `$path` and `$pathParameters`.
+     * 
+     * @var RequestPath
      */
-    public $path, $method;
+    public $path;
+    /**
+     * The method used to perform the request represented by this.
+     * 
+     * @var \string
+     */
+    public $method;
     /**
      * @ignore
      */
@@ -35,6 +45,7 @@ class Request {
      */
     public function __construct($method, $path, $pathParameters=array(), $queryParameters=array())
     {
+        parent::__construct();
         $this->method = $method;
         $this->path = new RequestPath($path, $pathParameters);
         $this->_query = new RequestQueryParameters($queryParameters);
@@ -52,6 +63,8 @@ class Request {
                 return $this->_query;
             else
                 throw new Exception('Method doesn\'t have a request body');
+        } else {
+            return parent::__get($name);
         }
     }
 

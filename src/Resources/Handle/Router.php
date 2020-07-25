@@ -91,41 +91,14 @@ class Router {
   public function registerRoute(string $method, string $routePath, callable $routeHandler) {
     $routePath = $routePath[0] != "/" ? "/" . $routePath : $routePath;
 
-    list($routePath, $params, $parsers) = $this->convertRoutePathToRegex($routePath);
+    // list($routePath, $params, $parsers) = $this->convertRoutePathToRegex($routePath);
 
     if (!is_callable($routeHandler))
       throw new TypeError("Handler must be a function");
 
-    array_push($this->routes[$method], new Route($routePath, $params, $routeHandler, $parsers));
+    array_push($this->routes[$method], new Route($routePath, $routeHandler));
 
     return new RouteInterface($this->routes[$method][sizeof($this->routes[$method])-1]);
-  }
-
-  /**
-   * Perform the appropriate parsing to obtain a regex from the path string.
-   * 
-   * @param \string $routePath The path string to be converted to a "path regex string".
-   * @return \array
-   */
-  private function convertRoutePathToRegex($routePath) {
-    $params = array();
-    $parsers = array();
-
-    //$pathto = "/user/12085018232";
-    //$matching = "/user/$(userid)/$(userconfig)";
-    ///@debug print($route . preg_match("/\\$\((\\w+)(.*?)\)/i", $route) . "<br>");
-
-    $rgx = preg_replace_callback("/\\$\((\\w+)(.*?)\)/i", function($matches) use(&$params, &$parsers) {
-      ///@debug print_r(array_slice($matches, 2));
-      $variable = $matches[1];
-      $params[$variable] = null;
-      $parsers[$variable] = $matches[2];
-      return "(\\w+)";
-    }, $routePath);
-
-    $rgx = "/^" . str_replace('/', '\/', $rgx) . "$/";
-
-    return array($rgx, $params, $parsers);
   }
 
   /**

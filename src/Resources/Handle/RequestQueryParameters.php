@@ -49,9 +49,10 @@ class RequestQueryParameters implements ArrayAccess {
     /** @ignore */
     public function offsetSet($offset, $value)
     {
-        // When I say "for now", I say thinking of the possibility
-        // to change this query parameters object and redirect the user
-        // to an "updated page". But, as I said, it's just a "thinking" 
+        // When I say "for now", I say it thinking of the possibility
+        // to provide the functionality to change this query parameters object
+        // as a way to redirect the user to an "updated page".
+        // But, as I said, it's just a "thinking".
         throw new Exception("Query parameters are (for now) read-only");
     }
 
